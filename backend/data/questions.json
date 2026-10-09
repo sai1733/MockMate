@@ -1,0 +1,2759 @@
+[
+  {
+    "title": "How does React's Reconciliation process and the Virtual DOM work, and how does React 18's Concurrent Mode alter rendering behavior?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong answer explains that the Virtual DOM is an in-memory tree representation of UI components that React compares against previous state via heuristic O(n) diffing to compute minimal actual DOM operations. Candidates should highlight component keys, element type matching, and memoization techniques to prevent redundant reconciliation sub-tree traversals. Furthermore, they should articulate how React 18 Concurrent Mode introduces interruptible rendering via time-slicing and fiber scheduling (useTransition, useDeferredValue), avoiding main-thread freezes during CPU-intensive state updates.",
+    "tags": [
+      "react",
+      "javascript",
+      "performance"
+    ]
+  },
+  {
+    "title": "Explain the JavaScript Event Loop, Microtask Queue, Macrotask Queue, and how requestAnimationFrame fits into the browser rendering pipeline.",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that JavaScript uses a single-threaded event loop driven by a call stack, microtask queue, and macrotask queue. Microtasks (Promise.then, MutationObserver, queueMicrotask) drain completely after every macrotask before yielding to the browser rendering phase. Candidates should clarify that requestAnimationFrame executes right before the layout and paint pipeline (matching display refresh rates), while setTimeout/setInterval callbacks are scheduled as macrotasks with minimum timer clamping.",
+    "tags": [
+      "javascript",
+      "async-programming",
+      "performance"
+    ]
+  },
+  {
+    "title": "What are Closures in JavaScript, how does lexical scoping enable them, and what are common use cases and memory leak risks?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A closure is created when an inner function retains references to variables in its enclosing outer lexical environment even after the outer function has finished executing. Common use cases include data encapsulation, private variable emulation (module pattern), and function currying/partial application. The candidate should also note that holding unneeded references in closures (such as uncleaned event listeners or circular references) prevents garbage collection, potentially causing memory leaks.",
+    "tags": [
+      "javascript",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "How does CSS specificity work, how do cascade layers (@layer) affect it, and what are best practices for scalable CSS architecture?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "CSS specificity is calculated using a 3-component weight: inline styles, ID selectors (1,0,0), class/pseudo-class/attribute selectors (0,1,0), and element/pseudo-element selectors (0,0,1), with !important overriding normal cascade rules. Modern CSS cascade layers (@layer) allow developers to group styles into explicit priority tiers where later layers always override earlier layers regardless of internal specificity. Best practices include keeping selectors flat, leveraging utility-first CSS (Tailwind) or CSS Modules, and avoiding unconstrained !important overrides.",
+    "tags": [
+      "html-css"
+    ]
+  },
+  {
+    "title": "Describe the differences between Server-Side Rendering (SSR), Static Site Generation (SSG), and Incremental Static Regeneration (ISR) in Next.js.",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "In Next.js, SSG pre-renders HTML at build time for optimal CDN caching and sub-second Time to First Byte (TTFB), ideal for static marketing pages or blogs. SSR renders HTML dynamically on each request on the Node.js server, making it suitable for authenticated, personalized, or frequently updated data at the cost of higher server latency. ISR combines both by serving cached static pages while regenerating them in the background after a revalidation timeout without requiring full project rebuilds.",
+    "tags": [
+      "next-js",
+      "react",
+      "performance"
+    ]
+  },
+  {
+    "title": "Explain the differences between client-side state management approaches (React Context, Redux Toolkit, and Zustand) and when to use each.",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "React Context is built into React and ideal for low-frequency global state like themes or auth tokens, but triggers re-renders on all consuming components when any value changes. Redux Toolkit provides predictable, centralized state management with time-travel debugging, middleware support, and strict action-reducer immutability, making it suited for complex enterprise applications. Zustand provides a lightweight, hook-based alternative that supports fine-grained selector subscriptions and avoids context provider wrapper nesting.",
+    "tags": [
+      "react",
+      "state-management",
+      "javascript"
+    ]
+  },
+  {
+    "title": "How do browser Web Workers operate, how do you communicate between threads, and what are their limitations regarding the DOM?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Web Workers run scripts in background threads isolated from the main UI thread, preventing long-running CPU calculations (image processing, data crunching, AI models) from freezing the user interface. Communication is handled via asynchronous message passing (postMessage and onmessage) using the structured clone algorithm or zero-copy transferable objects like ArrayBuffer or ImageBitmap. Workers cannot directly access the window object, document, or DOM elements, meaning all UI updates must be coordinated through the main thread.",
+    "tags": [
+      "javascript",
+      "performance"
+    ]
+  },
+  {
+    "title": "What are Core Web Vitals (LCP, INP, CLS), and what specific optimization strategies improve each metric?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Largest Contentful Paint (LCP) measures perceived load speed and is optimized by CDN caching, preloading hero images, and server-side streaming. Interaction to Next Paint (INP) measures responsiveness to user input and is improved by breaking long tasks with scheduler.yield(), offloading heavy logic to Web Workers, and minimizing main-thread blocking JavaScript. Cumulative Layout Shift (CLS) measures visual stability and is prevented by reserving explicit aspect-ratio attributes on images/videos and avoiding dynamic ad injections above the fold.",
+    "tags": [
+      "performance",
+      "html-css",
+      "react"
+    ]
+  },
+  {
+    "title": "How does the browser rendering engine construct the DOM, CSSOM, Render Tree, and handle Layout, Paint, and Compositing?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The browser parses raw HTML bytes into tokens, nodes, and the DOM tree, while concurrently parsing CSS rules into the CSSOM tree. These combine into the Render Tree, which contains only visible nodes with computed styles. The engine then computes geometry coordinates during Layout (reflow), rasterizes visual pixels during Paint, and combines GPU layers during Compositing. Candidates should emphasize that animating transform and opacity bypasses layout and paint, executing directly on the GPU for 60 FPS transitions.",
+    "tags": [
+      "performance",
+      "html-css",
+      "javascript"
+    ]
+  },
+  {
+    "title": "Explain Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) in frontend web apps, and how to defend against both.",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "XSS occurs when malicious scripts are injected into web pages, allowing attackers to hijack sessions or steal sensitive data. It is defended against by contextual output encoding, Content Security Policy (CSP) headers, and avoiding raw innerHTML/dangerouslySetInnerHTML. CSRF tricks authenticated users into submitting unwanted requests to trusted backends. It is mitigated by using HttpOnly cookies with SameSite=Strict or Lax attributes, alongside anti-CSRF challenge tokens or custom authorization headers.",
+    "tags": [
+      "web-security",
+      "javascript"
+    ]
+  },
+  {
+    "title": "What are TypeScript Generics, and how do utility types like Partial, Pick, Omit, and ReturnType enhance type safety in React applications?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "TypeScript Generics enable reusable, type-safe functions, classes, and interfaces that work with dynamic types while preserving compile-time type verification. Built-in mapped utility types transform existing types: Partial makes all properties optional, Pick extracts specified keys, Omit strips unwanted properties, and ReturnType extracts the inferred return type of a function. In React, generics are widely used to strongly type custom reusable hooks, polymorphic UI components, and API response wrappers.",
+    "tags": [
+      "typescript",
+      "react"
+    ]
+  },
+  {
+    "title": "How do React's useEffect, useLayoutEffect, and useEffectEvent differ in timing and execution guarantees?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "useEffect runs asynchronously after the browser paints the updated DOM on screen, making it ideal for non-blocking side effects like data fetching or event subscriptions. useLayoutEffect runs synchronously immediately after DOM mutations but before the browser paints, which is necessary when measuring DOM dimensions or applying layout corrections to prevent visual flickering. useEffectEvent is an experimental pattern that isolates non-reactive event logic inside effects without triggering unwanted re-synchronization when dependent values change.",
+    "tags": [
+      "react",
+      "performance"
+    ]
+  },
+  {
+    "title": "What is Progressive Web App (PWA) caching, how do Service Workers function, and what are the standard caching strategies?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A Service Worker acts as a programmable network proxy running in the background, intercepting HTTP requests to provide offline capabilities and fast caching via the CacheStorage API. Common caching strategies include Cache-First (for immutable hashed static assets), Network-First (for fresh real-time content with offline fallbacks), and Stale-While-Revalidate (serving cached content instantly while refreshing it in the background). Service workers follow a strict lifecycle of registration, installation, and activation.",
+    "tags": [
+      "javascript",
+      "performance"
+    ]
+  },
+  {
+    "title": "Explain the differences between CSS Flexbox and CSS Grid, and when you would choose one over the other in modern responsive layout design.",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Flexbox is a one-dimensional layout model designed for distributing space and aligning items along either a horizontal row or a vertical column, making it ideal for navbars, toolbars, and dynamic item wrapping. CSS Grid is a two-dimensional layout system allowing simultaneous control of both rows and columns, perfect for entire page skeletons, complex card dashboards, and overlapping UI elements. Modern design combines both: Grid for page-level structural architecture and Flexbox for component-level alignment.",
+    "tags": [
+      "html-css"
+    ]
+  },
+  {
+    "title": "How does Code Splitting work in modern frontend bundlers (Vite, Webpack) using dynamic import(), and how does it affect bundle size and initial load?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Code splitting breaks down a monolithic JavaScript bundle into smaller chunks that can be downloaded on-demand when specific routes or features are accessed. It relies on ES6 dynamic import() syntax and React.lazy(), ensuring the initial payload contains only the critical code necessary to render the landing view. This drastically reduces initial JavaScript download, parse, and execution times, directly improving First Contentful Paint (FCP) and Time to Interactive (TTI).",
+    "tags": [
+      "react",
+      "performance"
+    ]
+  },
+  {
+    "title": "What are React Server Components (RSCs) and how do they differ from traditional Client Components in Next.js App Router?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "React Server Components execute strictly on the server during the build or request time, outputting a serialized JSON-like virtual tree payload without sending their dependencies or component code to the client bundle. Unlike client components (marked with 'use client'), RSCs have direct access to server-side databases, file systems, and internal services without extra API layers. Client components are reserved for interactive features involving React state, effects, event handlers, or browser APIs.",
+    "tags": [
+      "react",
+      "next-js",
+      "performance"
+    ]
+  },
+  {
+    "title": "Explain the concept of Web Accessibility (a11y), semantic HTML, ARIA attributes, and how to ensure keyboard navigation accessibility.",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Web accessibility ensures websites are usable by everyone, including individuals relying on screen readers, screen magnifiers, or keyboard-only navigation. Using semantic HTML elements (header, main, nav, button) inherently provides accessibility roles, states, and keyboard focus management without custom code. ARIA attributes (e.g., aria-expanded, aria-live, aria-labelledby) should supplement semantic HTML when building custom complex widgets like modals or tabs, ensuring focus traps and focus restoration are rigorously maintained.",
+    "tags": [
+      "html-css"
+    ]
+  },
+  {
+    "title": "How does the React Hook Form library optimize form state management compared to controlled React inputs with useState?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Traditional controlled inputs using useState trigger a re-render of the entire form component on every single keystroke, leading to input lag in massive forms with dozens of fields. React Hook Form leverages uncontrolled inputs with ref registration, subscribing to input events natively without re-rendering the component on every keystroke. It optimizes performance, supports integrated schema validation libraries like Zod, and isolated error re-renders strictly to affected fields.",
+    "tags": [
+      "react",
+      "state-management"
+    ]
+  },
+  {
+    "title": "Describe the differences between Debounce and Throttle techniques in JavaScript with real-world frontend examples.",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Debouncing delays the execution of a function until a specified period of inactivity has passed since the last event invocation, making it ideal for auto-complete search inputs or window resize listeners. Throttling ensures a function executes at most once in every specified time interval regardless of how frequently the user triggers the event, making it ideal for infinite scroll listeners or mouse drag handlers. Both prevent performance degradation caused by high-frequency DOM event firing.",
+    "tags": [
+      "javascript",
+      "performance"
+    ]
+  },
+  {
+    "title": "What are Micro-Frontends, what problem do they solve for large enterprise teams, and what are the trade-offs?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Micro-frontends decompose a monolithic frontend application into autonomous, independently deployable web applications owned by separate cross-functional feature teams. Using techniques like Webpack Module Federation or iframe wrappers, individual micro-apps integrate at runtime into a cohesive host shell. While they provide independent release cycles and isolated technology stacks, trade-offs include increased bundle duplication, complex shared state management, and potential styling conflicts if design systems are uncoordinated.",
+    "tags": [
+      "system-design",
+      "react"
+    ]
+  },
+  {
+    "title": "How do you handle memory leaks in Single Page Applications (SPAs) caused by lingering event listeners, intervals, and component unmounts?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Memory leaks in SPAs occur when objects or listeners that are no longer needed remain referenced in closures or global registries, preventing JavaScript's mark-and-sweep garbage collector from reclaiming their memory. Developers must ensure every useEffect cleanup function removes event listeners, clears setIntervals/timeouts, and cancels active AbortControllers for pending network requests. Profiling via Chrome DevTools Memory Heap Snapshots and allocation timelines allows identifying detached DOM trees and accumulating closures.",
+    "tags": [
+      "javascript",
+      "performance",
+      "react"
+    ]
+  },
+  {
+    "title": "What is hydration mismatch in SSR/SSG React apps, why does it happen, and how do you debug and resolve it?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A hydration mismatch occurs when the server-rendered HTML tree differs from the virtual DOM tree generated by React on the client during the initial hydration pass. This typically happens when rendering non-deterministic data like timestamps (Date.now()), random numbers (Math.random()), or accessing client-only APIs (window, localStorage) during render. Developers resolve this by moving client-specific state into useEffect hooks, using suppressHydrationWarning for unavoidable differences, or implementing dynamic imports with ssr: false.",
+    "tags": [
+      "react",
+      "next-js"
+    ]
+  },
+  {
+    "title": "How does the browser Same-Origin Policy (SOP) work, and how does Cross-Origin Resource Sharing (CORS) allow controlled access?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The Same-Origin Policy is a fundamental browser security mechanism that restricts a document or script loaded by one origin from accessing resources or manipulating cookies of another origin (defined by protocol, domain, and port). CORS provides a secure mechanism for servers to whitelist specific origins via HTTP response headers like Access-Control-Allow-Origin and Access-Control-Allow-Credentials. For non-simple requests, browsers automatically dispatch an HTTP OPTIONS pre-flight request to verify server permissions before sending the actual payload.",
+    "tags": [
+      "web-security",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "What is Tree Shaking in JavaScript bundlers, and what coding patterns enable or hinder dead code elimination?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Tree shaking is an optimization process performed by modern bundlers (Vite/Rollup, Webpack) that statically analyzes ES Module (ESM) import/export statements to eliminate unused code from the final bundle. Because ESM syntax is static, bundlers can determine dependency graphs at compile time, whereas CommonJS (require/module.exports) is dynamic and hinders dead code elimination. Patterns like importing entire namespaces (import * as utils) or modules with unintended side effects (flags in package.json sideEffects: false) can prevent effective tree shaking.",
+    "tags": [
+      "javascript",
+      "performance"
+    ]
+  },
+  {
+    "title": "How do modern frontend testing tools (Vitest, Jest, React Testing Library) differ, and why should you test user behavior rather than implementation details?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Vitest and Jest serve as test runners providing assertion libraries and mocking frameworks, with Vitest offering native Vite integration and instant HMR-based test runs. React Testing Library focuses on rendering components and querying elements the way an end user or assistive technology would (via getByRole, getByText, getByLabelText). Testing user interactions rather than internal implementation details (such as component state or private methods) ensures tests do not break during benign code refactors.",
+    "tags": [
+      "testing",
+      "react"
+    ]
+  },
+  {
+    "title": "Explain how CSS-in-JS (Styled Components, Emotion) compares with Utility-First CSS (Tailwind CSS) in terms of runtime performance and developer experience.",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "CSS-in-JS libraries generate dynamic class names and inject styles into the document head at runtime, providing component-scoped styles and easy prop-driven theming but incurring runtime JS parsing overhead and bundle size bloat. Tailwind CSS compiles at build time by statically scanning source files and generating a purged, minimal static CSS file, resulting in zero runtime overhead and sub-10kB stylesheet sizes. Tailwind maximizes runtime performance while CSS-in-JS offers tighter programmatic typing integration.",
+    "tags": [
+      "html-css",
+      "performance"
+    ]
+  },
+  {
+    "title": "How does the AbortController API cancel pending fetch requests, and why is this critical when building React search inputs or data tables?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The AbortController API creates an AbortSignal that can be passed to fetch requests, allowing developers to programmatically cancel in-flight HTTP requests using controller.abort(). In React search components or data tables, fast user typing or pagination changes trigger multiple network requests; canceling previous pending requests prevents race conditions where an older, slower request overwrites the fresher response on the screen. It also conserves client and server network bandwidth.",
+    "tags": [
+      "javascript",
+      "async-programming",
+      "react"
+    ]
+  },
+  {
+    "title": "What are Web Components, how does the Shadow DOM provide style isolation, and how do they compare with React components?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Web Components are a suite of browser-native standards comprising Custom Elements, HTML Templates, and the Shadow DOM. The Shadow DOM creates an encapsulated, isolated DOM sub-tree where internal CSS styles cannot bleed out and external global styles cannot bleed in. While Web Components operate framework-independently across any web stack, React components provide superior declarative state management, synthetic events, and richer developer ecosystem tooling.",
+    "tags": [
+      "javascript",
+      "html-css"
+    ]
+  },
+  {
+    "title": "Explain the differences between LocalStorage, SessionStorage, IndexedDB, and Cookies regarding storage limits, security, and access methods.",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "LocalStorage and SessionStorage provide synchronous key-value string storage limited to ~5MB per origin, with SessionStorage clearing upon tab closure; both are vulnerable to XSS token extraction. Cookies are limited to ~4KB and automatically included in HTTP request headers; marking them HttpOnly, Secure, and SameSite protects them from XSS and CSRF. IndexedDB provides an asynchronous, transactional NoSQL database capable of storing hundreds of megabytes of structured data, objects, and binary blobs.",
+    "tags": [
+      "web-security",
+      "javascript"
+    ]
+  },
+  {
+    "title": "How do you optimize large rendering lists in React with Virtualization (e.g., TanStack Virtual or react-window)?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Virtualization (windowing) optimizes rendering lists containing thousands of items by rendering only the visible items currently inside the viewport plus a small overscan buffer. By calculating the container's scroll position and absolute heights, it continuously recycles a fixed pool of DOM nodes instead of creating tens of thousands of DOM elements. This keeps DOM node counts minimal, avoiding browser memory saturation and maintaining smooth 60 FPS scrolling speeds.",
+    "tags": [
+      "react",
+      "performance"
+    ]
+  },
+  {
+    "title": "Explain the Node.js Event Loop phases, and describe how libuv handles asynchronous non-blocking I/O operations under high concurrency.",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A comprehensive answer details the six core phases of the Node.js event loop: timers, pending callbacks, idle/prepare, poll, check (setImmediate), and close callbacks. Candidates must explain that libuv offloads blocking file system, DNS, and cryptographic tasks to a thread pool while managing network sockets asynchronously via kernel event notifications (such as epoll or kqueue). They should also differentiate between the microtask queue (process.nextTick, Promise callbacks) which runs immediately between phase transitions, and macrotasks.",
+    "tags": [
+      "node-js",
+      "async-programming",
+      "javascript"
+    ]
+  },
+  {
+    "title": "How do you design a database indexing strategy for high-throughput write-heavy vs. read-heavy workloads in MongoDB and SQL systems?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "An exceptional answer begins by distinguishing between read-heavy workloads where compound B-Tree indices, covering queries, and index sorting minimize disk lookups, versus write-heavy workloads where excessive indexing creates substantial write amplification and lock overhead. Candidates should explain strategies such as partial indices, sparse indices, and time-series clustering to optimize index memory footprints in RAM. Lastly, they should discuss write optimization techniques including batching, LSM-tree storage architectures, and write-ahead log tuning.",
+    "tags": [
+      "mongodb",
+      "sql-databases",
+      "system-design"
+    ]
+  },
+  {
+    "title": "Explain ACID properties in relational databases and how MongoDB achieves multi-document ACID transactions using WiredTiger.",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "ACID represents Atomicity (all-or-nothing execution), Consistency (data validity rules preserved), Isolation (concurrent transactions execute independently), and Durability (committed writes persist through crashes). MongoDB supports multi-document ACID transactions across replica sets and sharded clusters using its WiredTiger storage engine and snapshot isolation. Candidates should note that distributed transactions introduce write locking overhead and should be reserved for high-integrity workflows rather than high-throughput ingestion.",
+    "tags": [
+      "mongodb",
+      "sql-databases"
+    ]
+  },
+  {
+    "title": "What is the N+1 query problem in relational ORMs and Document databases, and how do you identify and resolve it?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The N+1 query problem occurs when an application executes 1 initial query to retrieve parent records, followed by N separate subsequent queries to retrieve related child records for each individual parent. In relational databases, this is solved using SQL JOINs or eager loading with DataLoader/include clauses. In document databases like MongoDB, it is resolved using populate(), $lookup aggregation pipelines, or intentional schema denormalization of child data directly into parent documents.",
+    "tags": [
+      "sql-databases",
+      "mongodb",
+      "performance"
+    ]
+  },
+  {
+    "title": "Describe the architectural differences between RESTful APIs and GraphQL, and explain trade-offs regarding over-fetching and under-fetching.",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "RESTful APIs expose fixed resource endpoints returning standard JSON payloads, which often causes over-fetching (downloading unnecessary fields) or under-fetching (requiring multiple chained round-trips to assemble related resources). GraphQL allows clients to define the exact shape of the data they require in a single query, resolving nested relationships through backend resolvers. However, GraphQL introduces complexity in HTTP-level caching, rate limiting, and vulnerability to expensive nested query Denial of Service attacks.",
+    "tags": [
+      "rest-apis",
+      "graphql",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How does Redis in-memory caching work, and what are the primary caching strategies (Cache-Aside, Write-Through, Write-Behind)?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Redis is an in-memory key-value data store providing sub-millisecond read/write latencies by keeping datasets in RAM with optional background persistence (RDB snapshots and AOF logs). In Cache-Aside, the application queries the cache first, loads from DB on a cache miss, and populates the cache. In Write-Through, the application writes simultaneously to the cache and database before confirming success. In Write-Behind, writes update the cache immediately and are asynchronously synced to the database, maximizing throughput at the risk of data loss on cache crash.",
+    "tags": [
+      "redis-caching",
+      "system-design",
+      "performance"
+    ]
+  },
+  {
+    "title": "Explain how JWT Authentication works, what constitutes a Dual-Token Architecture, and why in-memory access tokens with HttpOnly cookies are secure.",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A JSON Web Token consists of a Base64URL-encoded header, payload, and cryptographic signature verified via HMAC or RSA. In a Dual-Token Architecture, a short-lived (15-min) access token is kept in client memory (JavaScript state) to eliminate XSS token theft, while a long-lived (7-day) refresh token is stored in an HttpOnly, SameSite=Strict cookie to prevent CSRF. When the access token expires, a silent background rotation against /api/auth/refresh issues a new access token without logging out the user.",
+    "tags": [
+      "web-security",
+      "node-js",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "What are Database Connection Pools, why are they necessary, and what issues arise from pool exhaustion in Node.js applications?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A database connection pool maintains a set of pre-established, reusable database connections rather than opening and closing a new TCP socket and performing authentication handshakes on every HTTP request. Opening connections is expensive in terms of CPU, memory, and latency. Pool exhaustion occurs when all pooled connections are held by active or slow queries, causing subsequent queries to queue, time out, and trigger cascading latency failures across the backend.",
+    "tags": [
+      "sql-databases",
+      "mongodb",
+      "node-js"
+    ]
+  },
+  {
+    "title": "How do you implement API Rate Limiting, and what are the differences between Token Bucket, Leaky Bucket, and Fixed Window algorithms?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "API rate limiting restricts the number of requests a client can dispatch within a given timeframe to prevent abuse, brute force attacks, and resource exhaustion. Fixed Window counts requests in fixed time blocks, but suffers from burst attacks at window boundaries. Token Bucket replenishes tokens at a steady rate and consumes them on requests, accommodating controlled bursts. Leaky Bucket smooths traffic by processing requests at an exact constant outflow rate regardless of burst spikes.",
+    "tags": [
+      "system-design",
+      "web-security",
+      "redis-caching"
+    ]
+  },
+  {
+    "title": "Explain the CAP Theorem and how database systems like Cassandra, MongoDB, and PostgreSQL make trade-offs between Consistency, Availability, and Partition Tolerance.",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The CAP Theorem proves that a distributed data store can simultaneously guarantee at most two of three properties: Consistency (every read receives the most recent write), Availability (every non-failing node returns a non-error response), and Partition Tolerance (system continues operating despite arbitrary network dropped messages). Because network partitions are inevitable in distributed systems, architectures choose either CP (e.g., MongoDB primary election refusing writes during split-brain) or AP (e.g., Cassandra eventual consistency accepting writes on partitioned nodes).",
+    "tags": [
+      "system-design",
+      "mongodb",
+      "sql-databases"
+    ]
+  },
+  {
+    "title": "What are WebSockets, how do they differ from HTTP Long Polling, and when should Server-Sent Events (SSE) be chosen instead?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "WebSockets upgrade an initial HTTP connection to a persistent, full-duplex bi-directional TCP connection, allowing real-time low-overhead message transmission between client and server without continuous HTTP header overhead. HTTP Long Polling holds connections open until the server has new data, incurring latency and connection teardown costs. Server-Sent Events (SSE) provide a unidirectional, text-based stream from server to client over standard HTTP/2, making it the superior lightweight choice for one-way feeds like LLM streaming, live notifications, or stock tickers.",
+    "tags": [
+      "async-programming",
+      "node-js",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "How do you handle background jobs and distributed task queues in Node.js using tools like BullMQ, Redis, or RabbitMQ?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Distributed task queues decouple long-running, resource-intensive operations (such as AI grading, PDF generation, email dispatches) from the synchronous HTTP request-response cycle. Tools like BullMQ utilize Redis data structures (zsets, lists, streams) to manage job queues, exponential backoff retries, rate limiting, and delayed executions across distributed worker processes. RabbitMQ provides enterprise-grade message brokering with flexible routing keys, exchanges, and dead-letter queues for multi-service choreography.",
+    "tags": [
+      "redis-caching",
+      "microservices",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "What is SQL Injection, how does it occur, and why are parameterized queries / prepared statements the definitive defense?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "SQL Injection occurs when untrusted user input is directly concatenated into a SQL query string, allowing an attacker to manipulate query syntax and execute unauthorized database commands (e.g., bypassing auth, dumping data, dropping tables). Parameterized queries and prepared statements prevent this by pre-compiling the SQL command structure on the database engine and treating user input strictly as literal parameter data, completely neutralizing malicious executable syntax.",
+    "tags": [
+      "web-security",
+      "sql-databases"
+    ]
+  },
+  {
+    "title": "Explain the differences between Monolithic, Microservices, and Serverless backend architectures, highlighting operational and scalability trade-offs.",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A Monolith bundles all business capabilities into a single codebase and deployment unit, offering simple debugging, unified transactions, and low initial operational overhead, but scaling the entire application uniformly as complexity grows. Microservices split business domains into independent services communicating via APIs/queues, enabling independent deployments and granular scaling at the cost of distributed data consistency and operational tooling. Serverless abstracts infrastructure entirely to ephemeral event-driven functions, scaling to zero with pay-per-execution economics but facing cold-start latencies and vendor lock-in.",
+    "tags": [
+      "system-design",
+      "microservices"
+    ]
+  },
+  {
+    "title": "How does Node.js Streams API work (Readable, Writable, Transform), and why is streaming memory-efficient for file uploads or processing large datasets?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The Node.js Streams API processes data chunk-by-chunk in sequential buffers rather than loading an entire dataset into server RAM at once. Readable streams produce data, Writable streams consume data, and Transform streams modify data during piping (e.g., zlib compression or encryption). Backpressure management automatically pauses reading when the writable destination's internal buffer exceeds its highWaterMark threshold, preventing server out-of-memory (OOM) crashes during gigabyte-scale file transfers.",
+    "tags": [
+      "node-js",
+      "async-programming",
+      "performance"
+    ]
+  },
+  {
+    "title": "What is Database Sharding, how does horizontal partitioning differ from vertical partitioning, and what are common sharding key pitfalls?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Database sharding is horizontal partitioning that distributes rows across multiple autonomous database nodes to overcome single-node storage and compute limits, whereas vertical partitioning splits tables or columns into distinct databases by domain. A shard key determines the distribution of documents; picking a low-cardinality or monotonically increasing key (like timestamps) creates severe hot-spotting on a single shard. A robust sharding key balances uniform distribution with co-locating related queries to avoid cross-shard network broadcast joins.",
+    "tags": [
+      "system-design",
+      "mongodb",
+      "sql-databases"
+    ]
+  },
+  {
+    "title": "Explain the difference between Symmetric and Asymmetric Encryption, and how HTTPS/TLS combines both during the TLS handshake.",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Symmetric encryption uses a single shared secret key for both encryption and decryption (e.g., AES-256), offering high computational speed, while Asymmetric encryption uses a mathematically linked public-private keypair (e.g., RSA, ECC) to securely exchange data without sharing private secrets. In the HTTPS/TLS handshake, the client uses the server's asymmetric public certificate to authenticate identity and establish a shared symmetric session key. Once agreed upon, all subsequent data transmission utilizes fast symmetric encryption.",
+    "tags": [
+      "web-security"
+    ]
+  },
+  {
+    "title": "What are Idempotency Keys in REST APIs, and how do you design payment or checkout endpoints to prevent duplicate charges upon network retries?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "An idempotent HTTP method produces the same server state regardless of whether it is called once or multiple times. In non-idempotent POST operations like payments, the client generates a unique UUID idempotency key sent in headers. The server checks an atomic store (e.g., Redis) to see if that key has been seen; if processing, it rejects duplicates; if completed, it returns the cached original response without re-executing the financial transaction, safeguarding against network timeouts and automated client retries.",
+    "tags": [
+      "rest-apis",
+      "system-design",
+      "redis-caching"
+    ]
+  },
+  {
+    "title": "Explain how CORS pre-flight requests work, what triggers an OPTIONS request, and how to configure Express CORS securely in production.",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A CORS pre-flight OPTIONS request is dispatched automatically by browsers before non-simple cross-origin HTTP requests (e.g., using PUT/DELETE methods, custom headers like Authorization, or non-form Content-Types like application/json). The server responds with headers indicating allowed origins, methods, and headers. In Express, developers use the cors middleware with a strict origin whitelist function and credentials: true rather than wildcards ('*'), preventing unauthorized third-party sites from reading sensitive authenticated API responses.",
+    "tags": [
+      "web-security",
+      "express",
+      "node-js"
+    ]
+  },
+  {
+    "title": "What is the Circuit Breaker pattern in distributed microservice architectures, and what are the Closed, Open, and Half-Open states?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The Circuit Breaker pattern prevents cascading service failures by monitoring remote service calls and failing fast when downstream services become unresponsive. In the Closed state, requests pass through normally while monitoring failure rates. If errors exceed a threshold, the circuit flips to Open, immediately rejecting subsequent calls and returning cached fallbacks without exhausting system threads. After a cooldown timeout, it transitions to Half-Open, allowing a limited trial request to test if the remote service has recovered.",
+    "tags": [
+      "microservices",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How does Python's Global Interpreter Lock (GIL) affect multithreaded CPU performance compared to multiprocessing and asynchronous I/O?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "CPython's Global Interpreter Lock is a mutual exclusion lock that prevents multiple native threads from executing Python bytecode simultaneously, designed to safeguard CPython's reference-counting memory management from race conditions. Consequently, multithreading in Python does not speed up CPU-bound tasks across multi-core processors. To achieve true parallel CPU compute, developers use the multiprocessing module to spawn isolated processes, while using asyncio for single-threaded cooperative multitasking during I/O-bound operations.",
+    "tags": [
+      "python",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "What is Database Normalization (1NF, 2NF, 3NF), and why do high-throughput document databases embrace intentional Denormalization?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Database normalization organizes relational schema to eliminate redundant duplicate data and prevent insert, update, and delete anomalies: 1NF ensures atomic columns, 2NF removes partial key dependencies, and 3NF removes transitive dependencies. However, highly normalized schemas require multi-table JOINs that become bottlenecks under high query volumes. NoSQL document databases like MongoDB embrace intentional denormalization (embedding child documents) to optimize for fast, single-disk-read lookups at the expense of storage space.",
+    "tags": [
+      "sql-databases",
+      "mongodb"
+    ]
+  },
+  {
+    "title": "How does express-validator or Joi/Zod protect backend APIs against malformed request payloads and type coercion vulnerabilities?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Schema validation libraries enforce strict input contracts on incoming request bodies, query params, and URL route parameters before controllers execute business logic. They strip unexpected or malicious fields, validate data types, enforce string sanitization, and reject malformed requests with explicit 400 Bad Request error envelopes. This protects databases against prototype pollution, unexpected null exceptions, and NoSQL operator injection attacks (e.g., $gt in login fields).",
+    "tags": [
+      "express",
+      "web-security",
+      "node-js"
+    ]
+  },
+  {
+    "title": "What is the difference between Optimistic Concurrency Control and Pessimistic Locking in database record updates?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Pessimistic locking prevents concurrent conflict by obtaining exclusive row-level database locks (e.g., SELECT ... FOR UPDATE) before reading and modifying a record, blocking other transactions until commit; it is suitable for high-contention environments but reduces overall concurrency. Optimistic Concurrency Control assumes conflicts are rare, checking a record version number or timestamp upon writing; if the version has changed since reading, the transaction rolls back and retries, delivering higher throughput in low-conflict systems.",
+    "tags": [
+      "sql-databases",
+      "mongodb"
+    ]
+  },
+  {
+    "title": "Explain how Server-Side Pagination works using Offset-based vs. Keyset (Cursor-based) pagination on large database tables.",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Offset-based pagination uses OFFSET and LIMIT clauses, which are easy to implement but suffer from significant O(N) performance degradation on deep pages because the database must scan and discard all preceding offset rows in memory. Keyset (cursor-based) pagination queries against an indexed sequential column (e.g., WHERE id > last_seen_id ORDER BY id ASC LIMIT 20), allowing the database to jump directly to the target record via index lookups with constant O(1) performance and immunity to missing items during concurrent inserts.",
+    "tags": [
+      "sql-databases",
+      "mongodb",
+      "performance"
+    ]
+  },
+  {
+    "title": "How do you implement Graceful Shutdown in a Node.js Express server to ensure active requests complete before container termination?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "When container orchestrators like Kubernetes or Docker terminate a pod, they send a SIGTERM or SIGINT signal. A graceful shutdown handler listens for these process signals, stops the HTTP server from accepting new connections via server.close(), and allows in-flight HTTP requests and background operations to finish. It then closes database connection pools and Redis clients cleanly before terminating the process via process.exit(0), with a fallback timeout force-kill to prevent hung processes.",
+    "tags": [
+      "node-js",
+      "docker",
+      "express"
+    ]
+  },
+  {
+    "title": "What are Distributed Tracing and Structured Logging, and how do tools like OpenTelemetry and Winston help debug microservices?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Structured logging outputs log records in machine-readable JSON format with standard metadata (timestamps, log levels, service names, error stack traces) indexed by log aggregators like Elasticsearch or Datadog. Distributed tracing assigns a unique traceId and spanId to every incoming request at the API gateway, propagating these headers across all downstream microservices. OpenTelemetry correlates logs and distributed traces, enabling engineers to pinpoint the exact service causing latency or errors across complex distributed topologies.",
+    "tags": [
+      "microservices",
+      "system-design",
+      "node-js"
+    ]
+  },
+  {
+    "title": "Explain how Bcrypt securely hashes passwords, and why salt rounds and work factor prevent rainbow table and brute force attacks.",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Bcrypt is an adaptive cryptographic hash function based on the Blowfish cipher that incorporates a randomized salt into the hash, ensuring identical passwords generate completely distinct hashes to neutralize precomputed rainbow table attacks. Crucially, Bcrypt features a configurable work factor (cost parameter) that exponentially increases the iterations of key derivation. This deliberate computational slowness makes offline brute force and hardware-accelerated GPU cracking attacks prohibitively expensive over time.",
+    "tags": [
+      "web-security",
+      "node-js"
+    ]
+  },
+  {
+    "title": "How does GraphQL handle field authorization, schema stitching, and federation across multiple backend services?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "GraphQL field authorization can be enforced within custom directive decorators or inside individual resolver functions by inspecting the execution context (user role and permissions) before fetching field data. Schema stitching merges multiple independent GraphQL schemas into a single gateway gateway on top of legacy services. Apollo Federation provides an advanced declarative architecture where subgraphs define entity types and share ownership of fields, allowing the gateway to intelligently plan and orchestrate cross-service queries.",
+    "tags": [
+      "graphql",
+      "microservices"
+    ]
+  },
+  {
+    "title": "What is Database Replication (Master-Replica), and how do Read Replicas scale query loads while handling replication lag?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Master-replica database replication directs all write operations (INSERT, UPDATE, DELETE) to a primary master node, which asynchronously records changes to binary replication logs streamed to secondary read replicas. This scales read-heavy traffic by distributing SELECT queries across multiple read replicas. However, asynchronous replication introduces replication lag where replicas momentarily serve stale data; systems solve this by routing critical read-after-write queries directly to the master node.",
+    "tags": [
+      "sql-databases",
+      "system-design"
+    ]
+  },
+  {
+    "title": "Explain the purpose of API Gateways (e.g., Kong, NGINX, AWS API Gateway) and the core responsibilities they offload from backend services.",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "An API Gateway acts as the unified reverse proxy entry point for all client requests entering a backend system. It offloads cross-cutting operational concerns from individual microservices, including SSL termination, centralized JWT authentication, rate limiting, request routing, header transformations, response caching, and telemetry logging. This prevents duplicate logic across services, hides internal microservice network topology, and simplifies client integrations.",
+    "tags": [
+      "system-design",
+      "microservices"
+    ]
+  },
+  {
+    "title": "How do you securely handle file uploads directly to Cloud storage (AWS S3, Cloudinary) using Pre-Signed URLs vs. Server Streaming?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "In server streaming, the application receives file chunks and pipes them through memory buffers to cloud storage, which works well for small avatars or quick transformations but consumes backend server bandwidth and CPU. In pre-signed URL architectures, the backend authenticates the user, validates file metadata, and generates a time-limited cryptographically signed upload URL. The client then uploads the binary file directly to S3 or Cloudinary from the browser, completely bypassing the backend server and maximizing throughput.",
+    "tags": [
+      "rest-apis",
+      "web-security"
+    ]
+  },
+  {
+    "title": "What are Event-Driven Architectures, and how do message brokers like Apache Kafka handle event streaming and partitioned consumer groups?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Event-driven architecture decouples services by emitting immutable domain events to an event log when state changes occur, allowing multiple subscriber services to react asynchronously without direct coupling. Apache Kafka structures event streams into distributed, append-only commit logs divided into partitions across broker nodes. Consumer groups read from assigned partitions in parallel; Kafka maintains consumer offset positions, allowing high-throughput horizontal scaling and event replayability.",
+    "tags": [
+      "system-design",
+      "microservices"
+    ]
+  },
+  {
+    "title": "Explain the differences between SQL JOIN types (INNER, LEFT, RIGHT, FULL OUTER, CROSS) with relational database query examples.",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "INNER JOIN returns only rows that have matching values in both joined tables. LEFT JOIN returns all rows from the left table along with matched rows from the right table, substituting NULLs when no match exists, while RIGHT JOIN does the reverse for the right table. FULL OUTER JOIN combines both, returning all records from both tables and filling missing matches with NULLs, whereas CROSS JOIN produces the Cartesian product of all rows from both tables.",
+    "tags": [
+      "sql-databases"
+    ]
+  },
+  {
+    "title": "How do you design a robust health check endpoint (/health, /readiness, /liveness) in production microservices for Kubernetes orchestrators?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Liveness probes verify whether the application process is running and not locked in a deadlock; failure prompts Kubernetes to restart the container. Readiness probes check whether the service is actively prepared to receive live traffic by verifying active database connections, Redis caches, and downstream network reachability; failure temporarily removes the pod from the load balancer without killing it. Health endpoints must return structured JSON status without exposing internal infrastructure credentials.",
+    "tags": [
+      "devops",
+      "microservices"
+    ]
+  },
+  {
+    "title": "What is the difference between synchronous and asynchronous JavaScript, and how do Promises and async/await simplify asynchronous flow control?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that JavaScript is a single-threaded language where synchronous execution blocks the main thread until each operation finishes. In contrast, asynchronous operations delegate tasks like network requests or timers to browser APIs or Node.js runtime environments and push callbacks to task queues. Promises provide a standardized state machine (pending, fulfilled, rejected) to avoid callback hell, while async/await provides clean syntactic sugar for reading and handling sequential asynchronous operations with try/catch error boundaries.",
+    "tags": [
+      "javascript",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "Explain the end-to-end lifecycle of a web request from the moment a user types a URL in their browser address bar to the pixels rendering on screen.",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The browser checks local and OS DNS caches, resolves IP via recursive DNS servers, and initiates a TCP 3-way handshake followed by a TLS cryptographic negotiation. The HTTP GET request reaches a CDN or load balancer, passes through an API gateway/reverse proxy, and hits application web servers. The backend queries databases/caches and streams an HTML response. The browser constructs DOM and CSSOM, builds the Render Tree, computes Layout, paints pixels, composites GPU layers, and executes JavaScript hydration.",
+    "tags": [
+      "system-design",
+      "performance"
+    ]
+  },
+  {
+    "title": "How do Docker multi-stage builds work, and why are they essential for optimizing production Node.js and React container images?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Docker multi-stage builds use multiple FROM statements within a single Dockerfile, allowing intermediate stages to install heavy build tools, compile assets (npm run build), and run tests. The final production stage copies only the compiled production artifacts and production node_modules into a minimal, stripped alpine or distroless base image. This drastically slashes container image sizes from gigabytes to under 100MB, accelerates container deployment rollouts, and minimizes security vulnerabilities by excluding dev dependencies and package managers.",
+    "tags": [
+      "docker",
+      "devops"
+    ]
+  },
+  {
+    "title": "Describe the core stages of a modern CI/CD pipeline (Continuous Integration / Continuous Deployment) using GitHub Actions or GitLab CI.",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A modern CI/CD pipeline triggers on code commits or pull requests, beginning with automated linting (ESLint), static type checking (tsc), and security scanning for dependencies. The pipeline then compiles code, executes unit tests, integration tests, and builds Docker container images. Upon merging to main, the CD stage automatically deploys artifacts to staging environments, runs smoke tests, and promotes builds to production clusters using blue-green or rolling update strategies.",
+    "tags": [
+      "devops",
+      "testing"
+    ]
+  },
+  {
+    "title": "Explain the differences between Monorepos and Polyrepos, and how tooling like Turborepo or Nx provides build caching and dependency graph optimizations.",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Polyrepos maintain separate git repositories for each service, offering isolated access controls but complicating cross-service code sharing, atomic atomic refactors, and dependency synchronization. Monorepos store all packages, frontend apps, and backend services in a single repository with shared TypeScript types and design tokens. Modern monorepo tools like Turborepo and Nx parse the workspace dependency graph, execute tasks concurrently, and utilize remote computation caching to skip recompiling untouched packages.",
+    "tags": [
+      "devops",
+      "typescript"
+    ]
+  },
+  {
+    "title": "What is Test-Driven Development (TDD), and what is the testing pyramid distribution (Unit, Integration, and End-to-End tests)?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Test-Driven Development follows a strict Red-Green-Refactor cycle: write a failing test first, implement the minimal code required to pass the test, and refactor code while maintaining passing assertions. The testing pyramid advocates for a broad foundation of fast, isolated Unit tests (testing pure functions/components), a middle layer of Integration tests (verifying API controllers with databases), and a minimal top layer of comprehensive End-to-End tests (Playwright/Cypress validating complete user journeys).",
+    "tags": [
+      "testing"
+    ]
+  },
+  {
+    "title": "How do you design an OAuth2 and OpenID Connect (OIDC) authentication flow (Authorization Code Flow with PKCE) for Single Page Apps?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The Authorization Code Flow with Proof Key for Code Exchange (PKCE) is the gold standard for public Single Page Applications that cannot securely store a client secret. The client generates a random code_verifier and cryptographic code_challenge sent during the authorization redirect. Upon user consent, the authorization server returns a short-lived authorization code. The client exchanges this code alongside the code_verifier for an ID token (OIDC identity) and Access Token, preventing interception attacks.",
+    "tags": [
+      "web-security",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "What is Serverless compute (AWS Lambda, Vercel Serverless Functions), how does cold start latency occur, and how do you mitigate it?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Serverless compute executes functions in ephemeral cloud containers on-demand without managing server provisioning, scaling automatically based on incoming traffic. Cold start latency occurs when a new container instance must be initialized, downloading runtime environments and executing global initialization code before handling the first request. It is mitigated by keeping deployment package sizes lean, utilizing lightweight languages or Edge runtimes, maintaining provisioned concurrency, and reusing database connections across executions.",
+    "tags": [
+      "system-design",
+      "performance"
+    ]
+  },
+  {
+    "title": "Explain Infrastructure as Code (IaC) and how tools like Terraform or AWS CloudFormation enable reproducible cloud infrastructure.",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Infrastructure as Code defines and provisions computing environments, databases, VPCs, and serverless resources using declarative configuration files rather than manual cloud console clicks. Tools like Terraform maintain state files that track the current state of real-world resources against configuration files, planning exact delta changes before execution. IaC ensures environments (development, staging, production) are strictly reproducible, version-controlled in Git, and protected against configuration drift.",
+    "tags": [
+      "devops"
+    ]
+  },
+  {
+    "title": "What are Blue-Green Deployments and Canary Releases, and how do they achieve zero-downtime application updates?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Blue-Green deployment runs two identical production environments: Blue (currently serving live traffic) and Green (idle staging). The new version is deployed and smoke-tested on Green; once verified, the router/load balancer switches all traffic to Green instantly, with Blue remaining as an immediate rollback fallback. Canary releases gradually route a small percentage (e.g., 5%) of real user traffic to the new release while monitoring error rates and metrics, ramping up to 100% only when system health is validated.",
+    "tags": [
+      "devops",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How do you implement full-stack End-to-End (E2E) testing with Playwright or Cypress to validate user authentication and critical checkout flows?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "E2E testing tools like Playwright launch real browser instances (Chromium, Firefox, WebKit) and simulate actual user actions like clicking, typing, and page navigation across live client and backend servers. In authentication tests, Playwright logs in via UI or injects storage state cookies to bypass repetitive login steps, navigating through complex workflows and asserting DOM visibility, URL updates, and network request interception payloads. Running these tests in headless CI pipelines prevents deployment regressions.",
+    "tags": [
+      "testing",
+      "react"
+    ]
+  },
+  {
+    "title": "What is the 12-Factor App methodology, and how do principles like Config in Environment, Stateless Processes, and Port Binding apply to modern apps?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The 12-Factor App is a methodology for building scalable, cloud-native software-as-a-service applications. Key principles include strictly separating configuration from code by storing credentials and URLs in environment variables (Config), designing processes to be stateless and share-nothing with persistent data stored in backing services (Statelessness), and self-contained execution where applications export HTTP services by binding to a port rather than relying on web server injection.",
+    "tags": [
+      "devops",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How does GraphQL Subscriptions or Server-Sent Events (SSE) stream real-time LLM responses to a React client interface?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "When generating responses with Large Language Models (Gemini/OpenAI), waiting for the complete completion introduces 5-10 second perceived delays. Server-Sent Events stream chunked text over an HTTP text/event-stream connection using Transfer-Encoding: chunked. On the frontend, an EventSource or ReadableStream reader parses incoming delta chunks and appends them to component state in real time, delivering instantaneous visual feedback and conversational streaming UX.",
+    "tags": [
+      "react",
+      "async-programming",
+      "node-js"
+    ]
+  },
+  {
+    "title": "Explain Content Security Policy (CSP) headers and how they prevent XSS, clickjacking, and malicious resource injection.",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Content Security Policy is an HTTP response header that restricts the domains and resources (scripts, images, stylesheets, iframes, fonts) a browser is permitted to load and execute for a given page. By disabling inline script evaluation ('unsafe-inline') and requiring cryptographic nonces or hashes on legitimate scripts, CSP neutralizes reflected and stored XSS attacks even if malicious code is injected into the DOM. Directives like frame-ancestors 'none' defend against clickjacking.",
+    "tags": [
+      "web-security"
+    ]
+  },
+  {
+    "title": "What are Git Merge vs. Rebase strategies, and why do enterprise teams enforce linear Git commit histories with squash merging?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Git merge integrates feature branches by creating a non-destructive merge commit that preserves exact branch history and timestamps, but can clutter history graphs in large teams. Git rebase moves the base of a feature branch onto the tip of main, replaying commits sequentially to create a clean, linear history. Enterprise teams often enforce Squash Merging on Pull Requests to condense messy work-in-progress commits into a single descriptive semantic commit on main, simplifying git bisect and rollbacks.",
+    "tags": [
+      "devops"
+    ]
+  },
+  {
+    "title": "How do you design a scalable full-stack logging and monitoring stack using Prometheus and Grafana for backend metrics?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The backend exposes a /metrics endpoint formatting system and application metrics (HTTP request counts, error rates, latency percentiles p95/p99, memory usage) using the Prometheus client library. Prometheus periodically scrapes these metrics via pull architecture and stores them in a time-series database. Grafana connects to Prometheus as a data source to visualize interactive operational dashboards, setting alert manager rules that notify engineers via Slack or PagerDuty when anomalies occur.",
+    "tags": [
+      "devops",
+      "system-design"
+    ]
+  },
+  {
+    "title": "What is Database Migration management (e.g., Prisma Migrate, Knex, Flyway), and how do you execute zero-downtime database schema migrations?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Database migration tools track and apply incremental, version-controlled schema modifications (creating tables, altering columns, adding indices) through reproducible SQL or TypeScript scripts. For zero-downtime deployments, teams follow the Expand and Contract pattern: first expand the schema (e.g., adding a new nullable column or table without breaking the running backend), deploy the new application code that writes to both columns, backfill historical data, and finally contract by removing the old column.",
+    "tags": [
+      "sql-databases",
+      "devops"
+    ]
+  },
+  {
+    "title": "How do Webhooks work, how should recipients authenticate webhook payloads, and how do you ensure idempotent processing?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A webhook is an automated HTTP POST callback triggered by an event in a provider system (e.g., Stripe payment succeeded, GitHub push) sent to a registered consumer URL. Recipients authenticate payloads by verifying HMAC SHA-256 signatures generated with a shared secret key passed in headers (e.g., Stripe-Signature) before reading the raw body buffer. To guarantee idempotency during network retries, the receiver records the event ID in a persistent datastore, discarding already-processed events.",
+    "tags": [
+      "rest-apis",
+      "web-security"
+    ]
+  },
+  {
+    "title": "Explain the difference between Symmetric NAT, Port Forwarding, STUN, and TURN servers in WebRTC peer-to-peer audio/video streaming.",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "WebRTC establishes direct peer-to-peer audio/video connections, but firewalls and Network Address Translation (NAT) hide client private IP addresses. A STUN (Session Traversal Utilities for NAT) server allows clients to discover their public IP and port to facilitate peer-to-peer UDP hole punching. When symmetric NAT or corporate firewalls block direct peer connections, a TURN (Traversal Using Relays around NAT) server acts as a fallback relay server that forwards all media streams through an external server.",
+    "tags": [
+      "system-design",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "What is semantic versioning (SemVer), and how do automated release tools (Semantic Release, Changesets) manage npm library updates?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Semantic Versioning follows a MAJOR.MINOR.PATCH format: PATCH increments for backwards-compatible bug fixes, MINOR increments for backwards-compatible new features, and MAJOR increments for breaking API changes. Automated release tools like Semantic Release or Changesets parse conventional commit messages (fix:, feat:, BREAKING CHANGE:), automatically calculate the next version number, generate detailed changelog markdown files, and publish packages to npm registries in CI pipelines.",
+    "tags": [
+      "devops"
+    ]
+  },
+  {
+    "title": "How does GraphQL DataLoader batch and cache database requests to eliminate the N+1 problem in GraphQL backends?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "DataLoader is an open-source utility that solves the N+1 problem in GraphQL by batching multiple individual load requests occurring within a single tick of the Node.js event loop into a single batch function call. For example, instead of firing 50 individual database queries for 50 post authors, DataLoader groups the 50 author IDs and executes a single SELECT ... WHERE id IN (...) query. It also provides per-request in-memory memoization caching, preventing duplicate reads within the same execution.",
+    "tags": [
+      "graphql",
+      "sql-databases",
+      "mongodb"
+    ]
+  },
+  {
+    "title": "What is Cloudflare or CloudFront Edge Computing (Cloudflare Workers, Lambda@Edge), and what logic is best executed at the edge?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Edge computing runs lightweight serverless code across globally distributed CDN points of presence located physically close to end users, delivering sub-10ms response latencies. Ideal edge use cases include geolocation-based redirection, A/B testing header manipulations, custom authentication token validation, URL rewriting, and serving cached static assets. Heavy database queries and compute-intensive workloads remain better suited for regional core cloud servers.",
+    "tags": [
+      "system-design",
+      "performance"
+    ]
+  },
+  {
+    "title": "Explain how Dependency Injection (DI) and Inversion of Control (IoC) improve modularity and testability in full-stack applications (e.g., NestJS).",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Inversion of Control shifts the responsibility of instantiating and configuring object dependencies from the class itself to an external framework container. Dependency Injection implements IoC by injecting required service instances (e.g., database repositories, logger clients) through constructor parameters. This decouples business logic from specific implementations, allowing unit tests to easily substitute mock dependencies or test doubles without touching production code.",
+    "tags": [
+      "typescript",
+      "testing"
+    ]
+  },
+  {
+    "title": "How do you secure environment variables and secrets across development, CI/CD, and production environments using tools like HashiCorp Vault or AWS Secrets Manager?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Hardcoding secrets or checking .env files into version control poses severe security risks. In production and CI/CD, secrets are managed by dedicated secret stores (AWS Secrets Manager, HashiCorp Vault) providing automated key rotation, strict IAM role-based access, and access audit logging. Applications retrieve secrets dynamically at startup or inject them as encrypted environment variables into containers, ensuring no plaintext credentials reside on disk or in Git repositories.",
+    "tags": [
+      "web-security",
+      "devops"
+    ]
+  },
+  {
+    "title": "What is Database Replication vs. Database Clustering, and how do distributed consensus algorithms (Raft, Paxos) ensure leader election?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Replication copies data from a primary node to read replicas for fault tolerance and read scaling, while Clustering pools multiple inter-connected nodes into a single logical database that shares compute and storage. In distributed clusters, consensus algorithms like Raft and Paxos ensure nodes agree on cluster state and elect a new leader during network partitions or node failures. Raft divides consensus into leader election, log replication, and safety, requiring a strict majority quorum.",
+    "tags": [
+      "system-design",
+      "mongodb"
+    ]
+  },
+  {
+    "title": "Describe a situation where you had a strong technical disagreement with a team member or tech lead regarding system architecture. How did you handle the situation and what was the outcome?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should structure their response using the STAR method (Situation, Task, Action, Result). They should demonstrate active listening, depersonalizing technical debates, and relying on objective data, benchmarks, or rapid prototyping to validate trade-offs rather than authority. Finally, they must show professional maturity by either persuading the team through clear architectural reasoning or committing wholeheartedly to the team's final consensus once a decision was made.",
+    "tags": [
+      "behavioral-leadership",
+      "conflict-resolution",
+      "communication"
+    ]
+  },
+  {
+    "title": "Tell me about a time when a critical bug or outage occurred in production that was traced back to your code. How did you diagnose, resolve, and prevent it from recurring?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A strong answer demonstrates psychological safety, blameless post-mortem culture, and transparent incident management. The candidate should outline how they stayed calm under pressure, promptly communicated the outage status to stakeholders, rolled back the release or applied a hotfix, and used monitoring logs to pinpoint the root cause. Crucially, they should highlight preventive engineering actions taken afterward, such as automated regression tests, monitoring alerts, and improved code review checklists.",
+    "tags": [
+      "problem-solving",
+      "communication",
+      "devops"
+    ]
+  },
+  {
+    "title": "How do you handle tight project deadlines when scope is expanding and technical debt is accumulating?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should explain how they proactively communicate with product managers to renegotiate scope rather than silently burning out or delivering defective code. They should demonstrate pragmatic prioritization by identifying the Minimum Viable Product (MVP) features, making conscious, documented technical debt trade-offs, and scheduling dedicated refactoring sprints post-launch to pay down accumulated debt.",
+    "tags": [
+      "behavioral-leadership",
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "Describe an experience where you had to mentor a struggling junior engineer or onboard a new team member effectively.",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should highlight empathy, constructive feedback, and structured enablement. They should describe diagnosing whether the struggle stemmed from knowledge gaps, confidence issues, or ambiguous documentation. Effective tactics include pair programming, breaking tasks into manageable milestones, celebrating small wins, and empowering the junior engineer to discover solutions rather than simply dictating answers.",
+    "tags": [
+      "behavioral-leadership",
+      "communication"
+    ]
+  },
+  {
+    "title": "Tell me about a complex project where you had to quickly learn and adopt an unfamiliar technology stack or programming language under pressure.",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should demonstrate learning agility, resourcefulness, and structured technical research. They should describe breaking down the unfamiliar technology to first principles, building minimal proof-of-concept prototypes, consulting official documentation, and seeking guidance from experienced peers. They should conclude with the successful delivery of the feature and how the experience expanded their technical versatility.",
+    "tags": [
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "How do you give constructive, actionable feedback during code reviews without demotivating your peers or creating friction?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should explain that code reviews must focus on the code and system architecture rather than the individual engineer. Best practices include framing comments as curious questions ('Have we considered how this scales if...') rather than commands, explaining the rationale behind suggestions, praising elegant implementations, and distinguishing between critical blocking bugs versus optional nitpicks or style preferences.",
+    "tags": [
+      "communication",
+      "conflict-resolution"
+    ]
+  },
+  {
+    "title": "Describe a situation where a product requirement or business priority changed abruptly midway through your development sprint. How did you adapt?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should demonstrate agile adaptability, resilience, and customer-centric thinking. Rather than resisting change, they should explain how they assessed the technical impact, salvaged reusable components from the discarded work, reprioritized backlog tickets, and collaborated with cross-functional partners to realign sprint deliverables without compromising team morale.",
+    "tags": [
+      "problem-solving",
+      "communication"
+    ]
+  },
+  {
+    "title": "Tell me about a time you identified a major technical inefficiency, security flaw, or architectural flaw that no one else was addressing.",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A strong response demonstrates leadership and ownership. The candidate should describe identifying the bottleneck using data or profiling tools, drafting a lightweight RFC (Request for Comments) outlining the problem and proposed solution, quantifying business or performance benefits to stakeholders, and leading the implementation without disrupting planned product roadmap commitments.",
+    "tags": [
+      "behavioral-leadership",
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "How do you prioritize your daily tasks when juggling feature development, unexpected production escalations, and technical debt refactoring?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should articulate a structured prioritization framework such as the Eisenhower Matrix (urgent vs. important). They should describe addressing immediate production-blocking issues first, dedicating uninterrupted time blocks for deep feature work, and reserving consistent weekly bandwidth for technical debt cleanup, while communicating openly with team leads regarding bandwidth constraints.",
+    "tags": [
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "Describe a project where you had to collaborate closely with non-technical stakeholders (Product Managers, Designers, Marketers). How did you bridge the communication gap?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should emphasize translating technical complexities, performance trade-offs, and system limitations into clear business and user impact terms without confusing jargon. They should describe holding regular alignment check-ins, leveraging visual wireframes, actively listening to customer requirements, and fostering mutual trust through transparency and reliable delivery.",
+    "tags": [
+      "communication",
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "Tell me about a time when you received harsh or critical feedback on your work. How did you process it and what changes did you make?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should demonstrate emotional intelligence, a growth mindset, and receptiveness to feedback. They should describe stepping back to process the critique objectively rather than reacting defensively, asking clarifying questions to understand the underlying expectations, formulating an actionable improvement plan, and following up with the reviewer to demonstrate measurable progress.",
+    "tags": [
+      "conflict-resolution",
+      "communication"
+    ]
+  },
+  {
+    "title": "How do you evaluate and manage technical trade-offs between shipping quickly to validate product-market fit versus writing pristine, highly scalable code?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "An exceptional response shows business acumen and pragmatic engineering judgment. The candidate should explain that engineering serves business goals: premature optimization of unvalidated features wastes capital, while reckless hacking causes unsustainable maintenance debt. They should advocate for clean modular boundaries that allow fast iterations initially while keeping architecture clean enough to refactor or scale once product traction is confirmed.",
+    "tags": [
+      "behavioral-leadership",
+      "system-design"
+    ]
+  },
+  {
+    "title": "Describe a scenario where you had to push back against an unrealistic timeline or request from executive management or a client.",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should demonstrate professional courage and data-backed communication. Instead of saying a flat 'no', they should outline the trade-off triad (scope, time, quality), present options (e.g., cutting non-essential scope to meet the date, or keeping full scope with a revised timeline), and highlight the business risks (outages, security vulnerabilities) of rushing.",
+    "tags": [
+      "behavioral-leadership",
+      "communication",
+      "conflict-resolution"
+    ]
+  },
+  {
+    "title": "Tell me about an initiative you drove that significantly improved the developer experience, engineering culture, or deployment velocity of your team.",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should describe identifying a developer pain point (e.g., slow CI builds, flaky tests, lack of standardized linting, painful local setup), building consensus, and creating automated tooling or documentation. They should quantify the improvement (e.g., CI time reduced from 20 minutes to 4 minutes, onboarding time halved) and reflect on the positive cultural impact on team happiness.",
+    "tags": [
+      "behavioral-leadership",
+      "devops"
+    ]
+  },
+  {
+    "title": "How do you stay updated with rapidly evolving software technologies and frameworks without falling victim to Shiny Object Syndrome?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should explain how they balance continuous learning (reading release notes, following tech blogs, experimenting with side projects) with pragmatic conservatism. They should emphasize evaluating new technologies based on their ability to solve concrete business problems rather than novelty, checking community adoption, long-term maintenance, and migration costs before recommending them to their team.",
+    "tags": [
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "Describe a time when an experiment or technical approach you championed failed. What did you learn and how did you pivot?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should display intellectual honesty and accountability. They should describe setting up measurable metrics for the experiment, recognizing early when the data indicated the approach was not yielding desired results, pulling the plug decisively before wasting further resources, and conducting a blameless post-mortem to share learnings with the wider engineering organization.",
+    "tags": [
+      "problem-solving",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Tell me about a situation where you had to balance competing priorities from two different stakeholders with conflicting goals.",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should describe facilitating open dialogue between both stakeholders to uncover the core business drivers behind each request. They should articulate how they mapped both requests against high-level company OKRs, proposed a phased implementation timeline that satisfied immediate critical needs for both parties, and managed expectations transparently throughout delivery.",
+    "tags": [
+      "conflict-resolution",
+      "communication"
+    ]
+  },
+  {
+    "title": "Why are you interested in joining our engineering team, and how do your long-term technical aspirations align with our company mission?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should demonstrate genuine research into the company's product, technical challenges, and engineering values. They should articulate how their specific skills and passion for high-quality software development will contribute immediately to team goals, while expressing enthusiasm for learning from senior peers and tackling complex, mission-driven technical problems.",
+    "tags": [
+      "communication"
+    ]
+  },
+  {
+    "title": "Explain standard HTTP status codes (200, 201, 204, 400, 401, 403, 404, 500) and how they should be chosen in REST APIs.",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should categorize status codes into 2xx success, 4xx client errors, and 5xx server errors. Key distinctions include 200 OK for successful reads/updates versus 201 Created for new resources and 204 No Content for successful deletes. For errors, they must contrast 401 Unauthorized (missing or invalid credentials) with 403 Forbidden (authenticated but lacking permissions), and differentiate client bad input (400) from unhandled server exceptions (500).",
+    "tags": [
+      "rest-apis",
+      "web-security",
+      "express"
+    ]
+  },
+  {
+    "title": "What is an Express routing handler, and what is the difference between path parameters (req.params) and query parameters (req.query)?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A solid response defines route handlers as functions bound to specific HTTP verbs and URL paths in Express. Candidates should explain that req.params captures variable path segments defined in route templates (e.g., /users/:id for resource identification), whereas req.query captures optional key-value pairs after the question mark in the URL (e.g., ?page=2&sort=asc for filtering or pagination). Mentioning type conversion from strings is a strong plus.",
+    "tags": [
+      "express",
+      "node-js",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "How does middleware work in Express, and what happens if you forget to call next() inside custom middleware?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that middleware functions have access to the request, response, and the next middleware in the pipeline. They intercept, validate, or mutate requests before reaching the final route controller. If next() is not called and a response is not sent (e.g. res.send or res.json), the client request will hang indefinitely until timing out, blocking socket resources.",
+    "tags": [
+      "express",
+      "node-js",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "What is the difference between synchronous file operations (fs.readFileSync) and asynchronous ones (fs.promises.readFile) in Node.js?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should clearly state that fs.readFileSync executes synchronously on the main thread, blocking the Node.js event loop from processing any incoming HTTP requests or timers until disk I/O completes. In contrast, asynchronous operations like fs.promises.readFile offload disk I/O to libuv thread pool workers, returning a Promise and allowing the event loop to keep serving concurrent requests. High-traffic servers must never use sync operations in route handlers.",
+    "tags": [
+      "node-js",
+      "async-programming",
+      "performance"
+    ]
+  },
+  {
+    "title": "How does environment variable management with dotenv work, and why should .env files never be committed to Git repositories?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong answer explains that dotenv parses key-value pairs from a local .env file into process.env at server startup. Committing .env files exposes sensitive credentials (database passwords, API secret keys, JWT salts) to anyone with repository access, risking complete system compromise. Candidates should advocate using .env.example with placeholder keys and injecting actual values via CI/CD pipelines or cloud secret managers.",
+    "tags": [
+      "node-js",
+      "web-security",
+      "devops"
+    ]
+  },
+  {
+    "title": "What is JSON, how do JSON.stringify() and JSON.parse() work, and what runtime errors can occur when parsing untrusted input?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain JSON as a lightweight, text-based data interchange format based on JavaScript object syntax. JSON.stringify serializes objects to strings while discarding undefined values, functions, and circular references. JSON.parse deserializes valid strings into objects; if the string is malformed or invalid syntax, it throws a fatal SyntaxError, requiring try-catch wrapping or schema validation (like Zod) to prevent server crashes.",
+    "tags": [
+      "javascript",
+      "node-js",
+      "web-security"
+    ]
+  },
+  {
+    "title": "Explain the difference between Primary Keys and Foreign Keys in relational databases and how referential integrity is preserved.",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should state that a Primary Key uniquely identifies each row in a table, guaranteeing uniqueness and non-null values. A Foreign Key is a field in one table that references the Primary Key of another table, establishing a formal relationship. They should explain how relational databases enforce referential integrity by preventing orphaned records and supporting cascading actions (ON DELETE CASCADE or RESTRICT).",
+    "tags": [
+      "sql-databases",
+      "system-design"
+    ]
+  },
+  {
+    "title": "What is database connection pooling, and why is it superior to opening a new database connection on every incoming HTTP request?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that opening a database connection involves TCP handshakes, TLS negotiation, authentication, and backend process allocation, which adds severe latency (100ms+). A connection pool maintains a set of pre-warmed, reusable connections that incoming requests borrow and immediately return. This prevents database server exhaustion, controls concurrency, and dramatically boosts request throughput.",
+    "tags": [
+      "sql-databases",
+      "mongodb",
+      "performance"
+    ]
+  },
+  {
+    "title": "What is an ORM or ODM (such as Prisma or Mongoose), and what are the main benefits and drawbacks compared to raw database queries?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A great answer explains that an ORM/ODM maps database tables or document collections into programming language objects, offering schema validation, type safety, migrations, and readable syntax. Benefits include faster prototyping, built-in sanitization against basic injection, and consistent developer ergonomics. Drawbacks include hidden query overhead (such as N+1 issues), lack of fine-tuned control over complex joins, and potential performance penalties for massive aggregations.",
+    "tags": [
+      "mongodb",
+      "sql-databases",
+      "node-js"
+    ]
+  },
+  {
+    "title": "Explain how HTTP Set-Cookie works, and what the HttpOnly, Secure, and SameSite (Strict vs Lax) flags do to protect web applications.",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that the server sends a Set-Cookie response header instructing the browser to persist key-value pairs and attach them to subsequent requests. The HttpOnly flag forbids client-side JavaScript from accessing document.cookie, mitigating session theft via XSS. The Secure flag ensures cookies are only transmitted over encrypted HTTPS connections. The SameSite attribute controls cross-site transmission: Strict blocks the cookie from being sent on any third-party link, while Lax allows top-level GET navigations, preventing CSRF attacks.",
+    "tags": [
+      "web-security",
+      "rest-apis",
+      "express"
+    ]
+  },
+  {
+    "title": "What is API rate limiting, why is it critical for public backend services, and how can it be implemented using IP addresses or user tokens?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should define rate limiting as restricting the number of requests a client can make within a specified time window. It protects backend infrastructure from denial-of-service (DoS) attacks, brute-force password cracking, and scraping. Implementation approaches range from memory-based sliding windows using client IP addresses for public routes, to distributed Redis stores tracking authenticated user IDs or API keys, returning HTTP 429 Too Many Requests upon limit violation.",
+    "tags": [
+      "web-security",
+      "express",
+      "redis-caching"
+    ]
+  },
+  {
+    "title": "What is the purpose of a health check endpoint (/health or /live) in backend web applications and containerized environments?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that health check endpoints allow load balancers, orchestrators (like Kubernetes), and uptime monitors to verify whether an application instance is healthy and ready to accept traffic. They should differentiate between liveness probes (checking if the Node.js process is alive or deadlocked) and readiness probes (checking if downstream dependencies like databases and Redis caches are reachable before routing requests).",
+    "tags": [
+      "devops",
+      "docker",
+      "microservices"
+    ]
+  },
+  {
+    "title": "What is the difference between stateful session-based authentication and stateless JWT-based authentication in backend applications?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should contrast session-based auth (where server creates a session record in memory/Redis and gives the client a cookie with a session ID) with stateless JWTs (where all user metadata and signatures are encoded into a client-held token). Session auth allows instant server-side revocation but requires shared state across multi-server clusters. JWT auth scales effortlessly horizontally without shared session lookups, but makes instant revocation difficult without token blacklists.",
+    "tags": [
+      "web-security",
+      "node-js",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "What are WebSockets, and when would you choose WebSockets over traditional HTTP request-response polling?",
+    "track": "Backend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong response explains that WebSockets establish a persistent, full-duplex TCP connection over a single socket initiated via an HTTP Upgrade handshake. Unlike HTTP polling, which incurs repeated TCP/TLS handshakes and HTTP header overhead, WebSockets transmit lightweight binary or text frames in real time with sub-millisecond latency. They are ideal for chat apps, live collaborative dashboards, real-time gaming, and stock tickers.",
+    "tags": [
+      "async-programming",
+      "node-js",
+      "performance"
+    ]
+  },
+  {
+    "title": "How do multi-document transactions work in MongoDB replica sets, and what are their performance trade-offs?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that MongoDB supports ACID transactions across multiple documents and collections using client sessions (session.startTransaction). Transactions enforce snapshot isolation and two-phase commits across replica set nodes. They should highlight trade-offs: multi-document transactions consume significant wiredTiger cache memory, acquire document write locks for the transaction duration, and can cause write conflicts if operations touch hot documents, necessitating short-lived execution and retry logic.",
+    "tags": [
+      "mongodb",
+      "sql-databases",
+      "system-design"
+    ]
+  },
+  {
+    "title": "Compare database index types in PostgreSQL (B-Tree, Hash, GIN, and GiST): when would you choose GIN or GiST over a standard B-Tree index?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that B-Tree is the default, balanced-tree index ideal for equality, range queries (<, >), and sorting on scalar columns. Hash indexes only support fast equality lookups (=). GIN (Generalized Inverted Index) indexes multi-value data types like JSONB documents, full-text search tsvectors, and arrays, where an index entry maps each element to multiple rows. GiST (Generalized Search Tree) handles geometric, spatial (PostGIS coordinates), and hierarchical range data where data points overlap in multidimensional space.",
+    "tags": [
+      "sql-databases",
+      "performance",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How do you design an Idempotency Key mechanism for payment or financial POST endpoints in a distributed system?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A comprehensive answer explains that clients generate a unique UUID Idempotency-Key header on critical requests. The server checks a distributed store (like Redis or an SQL unique constraint table): if the key is currently being processed, it locks or rejects concurrent duplicates; if finished, it returns the cached response payload directly without re-executing business logic. If novel, the operation completes atomically, and the result is stored with a fixed TTL.",
+    "tags": [
+      "system-design",
+      "redis-caching",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "Explain zero-downtime database schema migration strategies when renaming or deleting columns in production systems.",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should articulate the expand-and-contract (parallel run) migration pattern. Directly renaming a column in production breaks active application instances. Instead: 1) Expand: add the new column and deploy code that writes to both old and new columns while reading from the old; 2) Backfill: asynchronously copy historical data to the new column; 3) Switch: deploy code that reads and writes solely from the new column; 4) Contract: remove old column and cleanup triggers.",
+    "tags": [
+      "sql-databases",
+      "devops",
+      "system-design"
+    ]
+  },
+  {
+    "title": "Compare Redis data structures (Strings, Hashes, Sets, Sorted Sets, Streams) and provide a real-world backend use case for each.",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should detail: Strings for key-value caching and distributed locks; Hashes for structured entity representation (user profile fields without serializing whole JSON); Sets for unique tags or online user tracking with fast set operations; Sorted Sets (ZSET) with score indexing for live leaderboards and rate-limiting sliding windows; and Redis Streams for consumer groups and append-only event logging with acknowledgment semantics.",
+    "tags": [
+      "redis-caching",
+      "system-design",
+      "performance"
+    ]
+  },
+  {
+    "title": "How does centralized error handling middleware work in Express, and how do you ensure unhandled Promise rejections are properly caught and routed to it?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong answer explains that Express recognizes error-handling middleware by its 4-parameter signature (err, req, res, next) placed at the very end of the middleware chain. In Express 4, unhandled promise rejections inside async route handlers bypass this middleware and crash the process unless explicitly wrapped with try/catch calling next(err) or using express-async-errors. In Express 5, async promise rejections are automatically forwarded to next(err). The handler formats standardized JSON error responses while stripping stack traces in production.",
+    "tags": [
+      "express",
+      "node-js",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "What causes a database deadlock in concurrent transactional systems, how do database engines detect them, and how do you design queries to prevent them?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that a deadlock occurs when two or more transactions simultaneously hold locks that the other transactions need to proceed, resulting in a circular wait (e.g. Transaction A locks Row 1 and waits for Row 2; Transaction B locks Row 2 and waits for Row 1). Database engines use wait-for graphs and deadlock detection algorithms to terminate the lowest-cost transaction (deadlock victim) with a serialization failure. Prevention strategies include enforcing a strictly consistent global ordering of row locks across all application queries, keeping transactions short, and implementing exponential backoff retries.",
+    "tags": [
+      "sql-databases",
+      "system-design",
+      "performance"
+    ]
+  },
+  {
+    "title": "How do you design a tamper-proof audit logging system in a microservices backend for regulatory and security compliance?",
+    "track": "Backend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong response outlines an append-only audit log capturing actorId, action, targetEntity, before/after diffs, timestamp, IP, and user-agent. The logs should be emitted asynchronously via message queues (e.g. Kafka or SQS) to prevent blocking primary business transactions. For tamper-proofing, audit records should be written to write-once-read-many (WORM) storage, cryptographically chained with cryptographic hashes, or stored in dedicated immutable log stores (like Elasticsearch or AWS CloudTrail/QLDB).",
+    "tags": [
+      "web-security",
+      "system-design",
+      "microservices"
+    ]
+  },
+  {
+    "title": "How do you architect a multi-tenant backend database model, and what are the trade-offs between shared database, schema-per-tenant, and database-per-tenant?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should dissect the three architectural patterns: Shared database with tenant_id discriminator is the most cost-effective and easiest to manage, but requires ironclad query-level row security (RLS) to prevent data leakage and suffers from noisy neighbor risks. Schema-per-tenant offers moderate isolation within one DB instance with slightly more complex migrations. Database-per-tenant provides absolute cryptographic/physical data isolation, custom backups, and zero noisy neighbors, but incurs highest infrastructure costs and migration complexity.",
+    "tags": [
+      "system-design",
+      "sql-databases",
+      "web-security"
+    ]
+  },
+  {
+    "title": "Explain the Saga Pattern for managing distributed transactions across microservices: compare Choreography versus Orchestration.",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that the Saga pattern replaces two-phase commit (2PC) in distributed microservices with a sequence of local transactions where each step publishes an event, with compensating transactions defined to rollback changes if any step fails. In Choreography, services react to domain events peer-to-peer without a central coordinator, which works well for simple workflows but becomes cyclic and hard to track. In Orchestration, a dedicated orchestrator service explicitly directs participants, simplifying monitoring, timeouts, and compensation logic.",
+    "tags": [
+      "microservices",
+      "system-design",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "How do you prevent cache stampedes (thundering herd problem) and cache penetration in high-throughput Redis caching layers?",
+    "track": "Backend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A comprehensive answer covers both failure modes. Cache stampede occurs when a hot cache key expires and thousands of concurrent requests miss and hammer the primary database simultaneously; solutions include distributed mutex locking (Redlock) so only one worker regenerates the cache, background probabilistic early recomputation (XFetch), or serving stale cache while updating asynchronously. Cache penetration occurs when queries for non-existent IDs bypass cache; solutions include caching null results with short TTLs and employing Bloom Filters in front of Redis.",
+    "tags": [
+      "redis-caching",
+      "performance",
+      "system-design"
+    ]
+  },
+  {
+    "title": "What are the core differences between let, const, and var in modern JavaScript, focusing on scoping, hoisting, and re-assignment?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that var is function-scoped (or globally scoped) and hoisted with an initial value of undefined, allowing duplicate declarations. In contrast, let and const are block-scoped (confined within {}) and hoisted into a Temporal Dead Zone (TDZ), throwing a ReferenceError if accessed prior to declaration. const requires immediate initialization and forbids re-assignment to its identifier, though internal properties of mutated objects can still change unless frozen.",
+    "tags": [
+      "javascript"
+    ]
+  },
+  {
+    "title": "Explain the difference between Props and State in React and how unidirectional data flow operates.",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should define Props as read-only, immutable configuration passed from parent components down to child components, enabling component reusability. State is internal, mutable data owned and managed directly within a component (via useState) that triggers re-renders when updated. Unidirectional data flow means data only moves down the component tree; child components communicate changes upward by invoking callback functions passed down as props.",
+    "tags": [
+      "react",
+      "javascript"
+    ]
+  },
+  {
+    "title": "How do the JavaScript array methods map(), filter(), and reduce() work, and why is immutability essential in React state updates?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong answer explains that map transforms each element into a new array, filter returns a subset meeting a boolean predicate, and reduce accumulates elements into a single value. Crucially, none of these methods mutate the source array. Immutability is vital in React because React performs shallow reference equality checks (===) on state to determine if re-rendering is needed; mutating an existing array in place keeps the same object reference, preventing React from detecting the change.",
+    "tags": [
+      "javascript",
+      "react",
+      "state-management"
+    ]
+  },
+  {
+    "title": "Explain the difference between == and === in JavaScript, and provide an example of unexpected type coercion.",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate must state that === is strict equality, which compares both value and type without converting types, whereas == is loose equality, which performs implicit type coercion according to abstract equality comparison rules before comparing. Examples of surprising coercion include false == 0 (true), '' == 0 (true), or null == undefined (true). Strict equality is universally recommended to eliminate silent bugs and unexpected coercion behavior.",
+    "tags": [
+      "javascript"
+    ]
+  },
+  {
+    "title": "How does event bubbling and event capturing work in the DOM, and what is the difference between event.stopPropagation() and event.preventDefault()?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain the DOM event propagation phases: capture phase (traveling from window down to target element) and bubbling phase (traveling from target back up to window). event.stopPropagation() stops the event from propagating further along the DOM hierarchy to ancestor listeners. In contrast, event.preventDefault() stops the browser's default native action (such as submitting a form or navigating an anchor tag) without halting DOM propagation.",
+    "tags": [
+      "javascript",
+      "html-css"
+    ]
+  },
+  {
+    "title": "Explain how the React useEffect hook works, what the dependency array controls, and why cleanup functions are necessary.",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A solid answer clarifies that useEffect runs side effects (data fetching, DOM subscriptions, timers) after render and paint. If omitted, the effect runs after every single render; an empty array [] runs once on mount; specifying dependencies runs the effect only when specified values change by reference. The cleanup function returned from useEffect runs prior to re-execution and on component unmount, preventing memory leaks from uncleared intervals, WebSocket connections, or event listeners.",
+    "tags": [
+      "react",
+      "javascript"
+    ]
+  },
+  {
+    "title": "What is semantic HTML, why is it critical for accessibility (a11y) and SEO, and what are examples of semantic elements?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should define semantic HTML as using elements that convey the meaning and structure of content rather than purely visual presentation (e.g. using <nav>, <main>, <article>, <section>, <header>, <button> instead of generic <div> and <span>). Semantic tags enable assistive technologies like screen readers to construct accessibility trees and navigate landmarks, while search engine crawlers accurately parse hierarchy and content relevance for ranking.",
+    "tags": [
+      "html-css"
+    ]
+  },
+  {
+    "title": "Explain the CSS Box Model: content, padding, border, margin, and how box-sizing: border-box simplifies layouts.",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that the box model represents the layout rectangular container: inner content, padding surrounding content, border enclosing padding, and margin spacing outside the border. Under default content-box, width applies solely to content, meaning adding padding and borders expands the rendered element dimension beyond the declared width. border-box incorporates padding and border into the specified width/height, eliminating arithmetic headaches and unexpected layout overflow.",
+    "tags": [
+      "html-css"
+    ]
+  },
+  {
+    "title": "What is responsive web design, and how do CSS media queries, viewport meta tags, and relative units (rem, em, %) achieve it?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that responsive design allows web pages to adapt fluidly across devices and screen resolutions. The <meta name='viewport' content='width=device-width, initial-scale=1.0'> tag sets mobile rendering scales correctly. CSS media queries apply custom style rules based on viewport breakpoints (@media (min-width: 768px)). Relative units like rem (relative to root font size), em, and percentages allow proportional scaling and user browser zoom accessibility.",
+    "tags": [
+      "html-css",
+      "performance"
+    ]
+  },
+  {
+    "title": "How does the 'this' keyword behave in traditional JavaScript functions versus arrow functions, and how do call(), apply(), and bind() alter context?",
+    "track": "Frontend",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that in traditional functions, 'this' is dynamically scoped and determined by how the function is invoked (global object in non-strict mode, undefined in strict mode, or the calling object instance). In contrast, arrow functions do not have their own 'this' binding; they lexically inherit 'this' from their enclosing lexical context, making them immune to call(), apply(), or bind() rebinding. Candidates should explain using bind() to fix context in event callbacks or object methods.",
+    "tags": [
+      "javascript"
+    ]
+  },
+  {
+    "title": "How do React Error Boundaries work, why can they not catch asynchronous errors or event handler exceptions, and how do you capture those?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that Error Boundaries are React components implementing componentDidCatch or static getDerivedStateFromError to catch JavaScript errors in child component rendering, lifecycle methods, and constructors. Crucially, they do not catch errors inside asynchronous callbacks (like setTimeout or fetch), event handlers (onClick), or server-side rendering; candidates should explain using try/catch inside handlers, or custom hooks using state setters to throw asynchronously into the nearest boundary, alongside tools like Sentry for automated logging.",
+    "tags": [
+      "react",
+      "javascript",
+      "testing"
+    ]
+  },
+  {
+    "title": "How do modern CSS methodologies (Tailwind CSS, CSS Modules, Styled Components) compare in terms of build performance, runtime overhead, and CSS bundle size?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong response compares: Tailwind CSS utilizes an ahead-of-time scanner generating an atomic utility stylesheet with zero runtime JS overhead and small capped bundle sizes through purge/JIT. CSS Modules provide scoped class names at build time with zero runtime cost. Styled Components and runtime CSS-in-JS libraries generate styles dynamically at client runtime via style tags, introducing JS bundle bloat, parsing overhead, and potential rendering delays on complex trees.",
+    "tags": [
+      "html-css",
+      "react",
+      "performance"
+    ]
+  },
+  {
+    "title": "How does code splitting in React work using React.lazy and Suspense, and how does dynamic route-based chunking improve performance?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that bundling an entire SPA into a single JS file forces clients to download unused pages before interactive rendering. React.lazy utilizes dynamic ES import() statements to split components into distinct script chunks generated by bundlers. When wrapped in <Suspense fallback={<Spinner />} />, the browser only downloads the specific code chunk when the user navigates to that route, dramatically reducing Initial JS execution time and improving Largest Contentful Paint (LCP).",
+    "tags": [
+      "react",
+      "performance",
+      "javascript"
+    ]
+  },
+  {
+    "title": "Explain the differences between useMemo and useCallback, what specific problems they solve, and when their overhead outweighs their benefits.",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should clarify that useMemo memoizes the computed result of an expensive function, whereas useCallback memoizes a function definition itself between renders to maintain referential identity when passed to memoized child components (React.memo). Premature usage adds memory allocations for dependency arrays and function closures; their overhead outweighs benefits when applied to cheap arithmetic operations or when passed to components that re-render regardless.",
+    "tags": [
+      "react",
+      "performance",
+      "javascript"
+    ]
+  },
+  {
+    "title": "How do TanStack Query (React Query) and SWR manage client-side server state, caching, deduplication, and stale-while-revalidate data fetching?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A solid answer explains that server state is fundamentally different from client UI state because it is asynchronously owned, shared, and out-of-date. TanStack Query uses query keys to manage in-memory caches, deduplicates identical simultaneous requests across components, and serves cached data instantly (stale) while fetching fresh data in the background (revalidate). It automates garbage collection, retry backoff, window focus refetching, and pagination prefetching.",
+    "tags": [
+      "react",
+      "state-management",
+      "performance"
+    ]
+  },
+  {
+    "title": "Compare browser storage mechanisms: localStorage, sessionStorage, IndexedDB, and Cookies, highlighting storage quotas, lifecycle, and security risks.",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should contrast: localStorage persists indefinitely with ~5MB limit and synchronous API; sessionStorage clears on tab close; IndexedDB offers asynchronous, transactional storage for gigabytes of structured binary and object data. Cookies (~4KB) travel with every HTTP request. For security, localStorage and IndexedDB are fully readable by JavaScript, making them vulnerable to XSS; sensitive session tokens belong in HttpOnly, SameSite cookies inaccessible to client scripts.",
+    "tags": [
+      "web-security",
+      "javascript",
+      "performance"
+    ]
+  },
+  {
+    "title": "What are CSS Container Queries (@container), how do they differ from viewport Media Queries, and how do they enable truly modular responsive components?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong answer explains that viewport media queries (@media) only adapt layouts based on global screen dimensions, breaking responsive component encapsulation when placed inside varying parent layouts (e.g., sidebars vs main content feeds). Container queries (@container) allow a component to query the exact width or inline-size of its direct parent container declared with container-type: inline-size, enabling truly modular, portable design system components that adapt to available local space regardless of screen width.",
+    "tags": [
+      "html-css",
+      "react"
+    ]
+  },
+  {
+    "title": "What is the Critical Rendering Path (DOM, CSSOM, Render Tree, Layout, Paint, Composite), and how do you optimize it to improve First Contentful Paint (FCP)?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong response outlines the pipeline: browser parses HTML to construct DOM, parses CSS to construct CSSOM, merges them into a Render Tree, calculates geometry in Layout/Reflow, paints pixels into layers, and composites layers on the GPU. To optimize FCP, developers must eliminate render-blocking resources by deferring non-critical scripts (defer/async), inlining critical path CSS, minimizing font flash (font-display: swap), and compressing HTML payloads.",
+    "tags": [
+      "performance",
+      "html-css",
+      "javascript"
+    ]
+  },
+  {
+    "title": "How do you implement optimistic UI updates in frontend applications, and how do you handle rollback when backend mutations fail?",
+    "track": "Frontend",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that optimistic updates immediately render expected success states in the UI before network requests finish, eliminating perceived latency. Using state managers or TanStack Query onMutate: 1) cancel outgoing refetches for that query; 2) snapshot current cache state; 3) optimistically update cache with new data. If the backend mutation errors, onError restores the previous snapshot to rollback UI state, and triggers an error toast notification to the user.",
+    "tags": [
+      "react",
+      "state-management",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "How do you design an Enterprise Design System with headless UI primitives (Radix UI / React Aria) and token-based styling across multiple frameworks?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should detail separating behavior and accessibility from visual aesthetics. Headless primitives provide fully tested WAI-ARIA compliant state machines, focus management, and keyboard navigation without opinions on styling. Design tokens (colors, spacing, typography) are defined in centralized JSON/Figma and compiled via Style Dictionary into CSS custom properties. Component wrappers bind tokens to primitives, providing type-safe compound components and effortless theme switching across teams.",
+    "tags": [
+      "react",
+      "system-design",
+      "html-css"
+    ]
+  },
+  {
+    "title": "How do React Server Actions work under the hood in Next.js App Router, and how do they ensure secure form mutations with CSRF protection and progressive enhancement?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that Server Actions are asynchronous functions declared with 'use server' executed on the server via an automated POST request dispatched by React. They support progressive enhancement by functioning with native HTML <form action={action}> even before client JavaScript hydrates. Under the hood, Next.js generates cryptographic action IDs, enforces same-origin CSRF checks via Origin/Host verification, and orchestrates seamless server revalidation using revalidatePath and revalidateTag without manual fetch boilerplate.",
+    "tags": [
+      "next-js",
+      "react",
+      "web-security"
+    ]
+  },
+  {
+    "title": "How do you diagnose, profile, and fix memory leaks in complex Single Page Applications using Chrome DevTools Memory Profiler?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain using the Memory Panel to capture Heap Snapshots and Allocation Timelines before and after interacting with components. Looking for detached DOM trees (nodes removed from document but retained by JS references) and inspecting retaining paths reveals culprits: uncleared setInterval timers, lingering event listeners on window, uncleared RxJS/WebSocket subscriptions, or closures holding large objects in module-level scopes. Fixes involve strict lifecycle cleanups and WeakMap/WeakRef usage.",
+    "tags": [
+      "performance",
+      "javascript",
+      "react"
+    ]
+  },
+  {
+    "title": "What is CSS Houdini, how does the CSS Paint API work in a separate worklet thread, and how does Typed Object Model (Typed OM) improve CSS performance?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A comprehensive senior answer explains that CSS Houdini exposes low-level browser layout, painting, and compositing hooks directly to developers. The CSS Paint API executes in an isolated PaintWorklet thread off the main thread, generating dynamic procedural graphics directly into the rendering engine's painting stage without generating DOM elements. Candidates should explain that Typed OM replaces clunky string parsing (e.g. el.style.opacity = '0.5') with typed numeric objects (CSS.percent(50)), eliminating string conversion overhead and drastically accelerating DOM style manipulations.",
+    "tags": [
+      "html-css",
+      "performance",
+      "javascript"
+    ]
+  },
+  {
+    "title": "How do you architect an offline-first Progressive Web App (PWA) using Service Workers, Cache Storage API, and Background Sync?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong response explains that a Service Worker acts as a client-side programmable network proxy running in a separate worker thread. It intercepts fetch events to serve assets via caching strategies (Cache-First for static hashed assets, Network-First or Stale-While-Revalidate for API responses). Mutations performed while offline are persisted in IndexedDB, and the Service Worker's Background Sync API replays them reliably once network connectivity is restored.",
+    "tags": [
+      "performance",
+      "async-programming",
+      "javascript"
+    ]
+  },
+  {
+    "title": "Explain browser rendering composite layers, hardware acceleration with CSS transform / opacity, and how to avoid layout thrashing and reflows.",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should detail how the browser promotes elements to separate GPU composite layers when animated with transform or opacity (or will-change: transform). Animating these properties bypasses the CPU Layout and Paint phases entirely, running at 60/120 FPS on the compositor thread. Layout thrashing happens when alternating reads (e.g. offsetHeight) and writes to DOM styles in a loop, forcing synchronous reflows; developers must batch reads and writes using requestAnimationFrame or FastDOM.",
+    "tags": [
+      "performance",
+      "html-css",
+      "javascript"
+    ]
+  },
+  {
+    "title": "How do you build an end-to-end Real User Monitoring (RUM) frontend telemetry pipeline tracking Core Web Vitals (LCP, INP, CLS) and unhandled errors?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should describe capturing Google's web-vitals library metrics using PerformanceObserver APIs to measure Largest Contentful Paint, Interaction to Next Paint, and Cumulative Layout Shift. Unhandled exceptions are captured via window.onerror and unhandledrejection listeners alongside React Error Boundaries. Telemetry payloads are batched and dispatched asynchronously using navigator.sendBeacon to ensure data is transmitted reliably even during page unload without blocking navigation.",
+    "tags": [
+      "performance",
+      "testing",
+      "javascript"
+    ]
+  },
+  {
+    "title": "Compare frontend rendering and hydration paradigms: Full Client Hydration, Island Architecture (Astro), Streaming SSR with React Suspense, and Resumability (Qwik).",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A senior-level answer compares: Traditional SSR downloads HTML but executes all JS to hydrate the entire DOM before interactivity, causing an 'uncanny valley'. React 18 Streaming SSR uses selective hydration to prioritize visible interactive components. Island Architecture renders static HTML by default and only hydrates isolated interactive islands. Resumability (Qwik) serializes application state into HTML, executing zero client JS on page load and loading micro-handlers on-demand upon user interaction.",
+    "tags": [
+      "react",
+      "next-js",
+      "performance"
+    ]
+  },
+  {
+    "title": "How do you configure strict Content Security Policy (CSP) headers, Subresource Integrity (SRI), and CORS to safeguard single-page apps against XSS and injection attacks?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that Content Security Policy (CSP) headers (default-src, script-src 'self', object-src 'none') instruct browsers to only execute scripts from trusted whitelisted domains or matching cryptographic nonces/hashes, neutralizing injected malicious inline scripts. Subresource Integrity (SRI) validates SHA cryptographic hashes of CDN scripts to protect against CDN tampering. CORS restricts cross-origin resource access, and secure cookie flags prevent credential hijacking.",
+    "tags": [
+      "web-security",
+      "system-design",
+      "performance"
+    ]
+  },
+  {
+    "title": "Explain the internal architecture of modern frontend bundlers (Vite, Rollup, Turbopack, Webpack 5), contrasting native ESM dev servers with bundle-based tools.",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that legacy bundlers (Webpack) bundle the entire dependency graph into disk/memory bundles before dev servers can launch, resulting in slow startup on large apps. Modern dev servers (Vite) leverage native browser ES Modules (ESM) to serve unbundled source code on-demand, transforming individual files on request while pre-bundling node_modules with esbuild (Go). For production, Vite uses Rollup or Rolldown to generate highly optimized, chunked, and tree-shaken assets.",
+    "tags": [
+      "performance",
+      "javascript",
+      "devops"
+    ]
+  },
+  {
+    "title": "How do you architect high-frequency data visualization pipelines in React (e.g. 60 FPS live charting) using HTML5 Canvas or WebGL without stalling the React render cycle?",
+    "track": "Frontend",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A master-level answer emphasizes that feeding high-frequency telemetry (100Hz+) into React component state will overwhelm the reconciler and cause severe frame drops. Instead, the React component should simply mount an unmanaged <canvas> ref. A dedicated rendering loop (via requestAnimationFrame) or Web Worker running an OffscreenCanvas updates canvas buffers directly using direct array buffers and WebGL draw calls, completely decoupled from React's reconciliation cycle.",
+    "tags": [
+      "performance",
+      "react",
+      "javascript"
+    ]
+  },
+  {
+    "title": "Explain the Client-Server architecture model: trace how an HTTP GET request travels from a browser address bar to a backend server and renders HTML/JSON.",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should trace the full request lifecycle: DNS lookup resolves the domain name to an IP address; the browser initiates a TCP three-way handshake and TLS negotiation; an HTTP GET request is transmitted over the wire; the backend server receives the request, parses headers, executes route middleware and database queries, and formats a response payload (HTML or JSON) with appropriate status headers; the browser parses the response and renders the UI.",
+    "tags": [
+      "rest-apis",
+      "node-js",
+      "html-css"
+    ]
+  },
+  {
+    "title": "What is the difference between client-side routing (React Router) and server-side routing (Express), and what happens when you refresh an SPA on a sub-route?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that client-side routing intercepts browser URL changes using the HTML5 History API, rendering matching React component views without reloading the page. Server-side routing directly responds to incoming HTTP requests with new documents or data. If a user refreshes an SPA on /dashboard, the browser asks the backend for /dashboard; if the server does not have a catch-all route (app.get('*')) serving index.html, it returns a 404 error.",
+    "tags": [
+      "react",
+      "express",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "How do you connect a React frontend to an Express backend API using fetch or axios, and how do you handle loading and error states?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A solid response demonstrates setting up an HTTP client (like axios or fetch) inside a React useEffect or custom hook. Candidates should describe maintaining three state variables: data, loading (boolean), and error (null or message). While the asynchronous request is pending, a loading indicator renders; upon successful resolution, data state updates; upon network failure or 4xx/5xx responses, error state catches the exception and renders an alert.",
+    "tags": [
+      "react",
+      "express",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "Explain Cross-Origin Resource Sharing (CORS) from both the frontend browser perspective and the backend Express configuration perspective.",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should clarify that CORS is a browser security mechanism that restricts web pages from making AJAX requests to a different domain, port, or protocol than the page origin. For non-simple requests, browsers dispatch an OPTIONS preflight request. The backend Express server must respond with Access-Control-Allow-Origin, Allow-Methods, and Allow-Headers headers (configured via the cors package) to authorize the frontend origin to read responses.",
+    "tags": [
+      "web-security",
+      "express",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "How does the 'git stash' command work, and when would you use 'git cherry-pick' in a fullstack development workflow?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that git stash temporarily shelves uncommitted local modifications (both staged and unstaged) into a dirty working directory stack, reverting the working tree to HEAD so developers can switch branches or pull updates without losing work. git stash pop restores and clears the stashed changes. git cherry-pick <commit-hash> applies the exact changes from a specific commit on another branch onto the currently active branch, commonly used to backport urgent bug fixes into production branches without merging entire feature branches.",
+    "tags": [
+      "devops"
+    ]
+  },
+  {
+    "title": "What are npm, yarn, and pnpm, and what is the difference between dependencies and devDependencies in package.json?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A clear answer explains package managers that download and resolve open-source JavaScript libraries into node_modules. dependencies are runtime packages required for the production application to function (e.g. express, react, mongoose). devDependencies are development and build tools only needed during local development and CI testing (e.g. vitest, eslint, tailwindcss), which are pruned during production deployment builds to minimize image sizes.",
+    "tags": [
+      "node-js",
+      "devops"
+    ]
+  },
+  {
+    "title": "What is an environment variable, why are they used across fullstack apps, and how do frontend build tools (Vite/Webpack) expose them differently than Node.js?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain environment variables as external dynamic values passed into processes to configure database URLs, port numbers, and secret keys without hardcoding them. In Node.js, all variables reside in process.env. In frontend build tools (like Vite with VITE_ or Next.js with NEXT_PUBLIC_), only variables explicitly prefixed with the public identifier are statically replaced during build time into client bundles; private server secrets must never be prefixed or exposed to the client.",
+    "tags": [
+      "web-security",
+      "node-js",
+      "react"
+    ]
+  },
+  {
+    "title": "How do you structure a fullstack CRUD application across frontend components, HTTP API routes, and database collections?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should map the 4 operations: Create (POST /api/items -> database insert -> UI optimistic list prepend), Read (GET /api/items -> database find -> UI list render), Update (PUT/PATCH /api/items/:id -> database updateOne -> UI item edit modal), and Delete (DELETE /api/items/:id -> database deleteOne -> UI item removal). They should emphasize maintaining consistent data schemas, validation middleware on the server, and feedback notifications on the frontend.",
+    "tags": [
+      "rest-apis",
+      "express",
+      "mongodb"
+    ]
+  },
+  {
+    "title": "What is a 404 Not Found error, and how should a fullstack application handle missing routes differently on the backend API versus the frontend SPA?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong response clarifies that a backend API route that receives an unmatched path or non-existent resource ID should return HTTP status 404 with a structured JSON error payload ({ success: false, message: 'Resource not found' }). On the frontend SPA, client-side routers match unmatched paths using a wildcard route (<Route path='*' element={<NotFoundPage />} />) to render a helpful navigation UI without crashing the application.",
+    "tags": [
+      "express",
+      "react",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "What is Mock Service Worker (MSW), and how does intercepting network requests at the network level improve frontend and fullstack test reliability?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A clear answer explains that traditional mock approaches (mocking fetch or axios directly) alter runtime JavaScript implementations and fail to test real HTTP client configuration, headers, or serialization. Mock Service Worker (MSW) uses native Service Workers in the browser (or class-interception in Node.js) to intercept actual HTTP requests at the network level, returning mock JSON responses without modifying production application code. This provides seamless, realistic integration testing for React components and E2E suites.",
+    "tags": [
+      "testing",
+      "react",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "What is a Pull Request (PR) code review process, and what key aspects should an engineer inspect before approving a teammate's PR?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain code review as a collaborative quality gate. Key aspects to verify include: correctness and edge case handling, adherence to team architectural conventions, security vulnerabilities (SQL/NoSQL injection, exposed secrets, missing auth guards), performance traps (N+1 queries, unmemoized expensive loops), automated test coverage, and clear variable naming and documentation.",
+    "tags": [
+      "testing",
+      "devops",
+      "web-security"
+    ]
+  },
+  {
+    "title": "Explain the end-to-end fullstack authentication flow: from submitting an HTML login form to token verification and protected route access.",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A solid response details: 1) User enters email and password into a React form; 2) Frontend sends POST /api/auth/login; 3) Express controller verifies user existence, compares passwords using bcrypt; 4) Backend generates signed JWT access token (and refresh token in HttpOnly cookie) and returns user info; 5) Frontend stores access token in memory and redirects to protected dashboard; 6) Subsequent API calls attach token in Authorization: Bearer header; 7) Protect middleware verifies signature.",
+    "tags": [
+      "web-security",
+      "express",
+      "react"
+    ]
+  },
+  {
+    "title": "How do you configure a Vite or Webpack development proxy (server.proxy), and why is it often preferred over enabling broad CORS in local development?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that running React on localhost:5173 and Express on localhost:5000 triggers browser CORS restrictions because ports differ. While configuring cors() in Express allows cross-origin requests, configuring a local development proxy in Vite (server.proxy: { '/api': 'http://localhost:5000' }) rewrites client requests so they appear same-origin to the browser. This eliminates CORS preflight OPTIONS requests, matches production same-origin deployment topology, and avoids polluting backend security configurations with localhost rules.",
+    "tags": [
+      "react",
+      "express",
+      "web-security"
+    ]
+  },
+  {
+    "title": "How do you handle client-side form validation versus backend server-side validation in fullstack web applications?",
+    "track": "Fullstack",
+    "difficulty": "Junior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should stress that client-side validation (using React Hook Form, HTML5 constraints, or Zod) exists purely for user experience (providing instantaneous feedback before network submission). Backend server validation is mandatory and non-negotiable for system security and data integrity, because any malicious actor can bypass the frontend and fire raw HTTP requests using cURL or Postman. Validations should ideally share common schema definitions.",
+    "tags": [
+      "web-security",
+      "react",
+      "express"
+    ]
+  },
+  {
+    "title": "How do you architect a fullstack Monorepo using pnpm workspaces and Turborepo for shared TypeScript types and UI packages?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong answer outlines structuring /apps (web, admin, api) and /packages (ui, database, config, types) in a monorepo. pnpm workspaces symlinks internal packages without publishing to npm. Turborepo provides intelligent dependency graph pipelines, caching build artifacts locally and remotely, executing linting, tests, and builds in parallel while caching unchanged tasks. Shared TypeScript types ensure compile-time contract synchronization across client and server.",
+    "tags": [
+      "typescript",
+      "system-design",
+      "devops"
+    ]
+  },
+  {
+    "title": "Explain End-to-End Type Safety across the stack: compare tRPC, GraphQL Code Generator, and shared Zod validation schemas.",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain how end-to-end type safety eliminates runtime data mismatches between backend APIs and frontend consumers. tRPC leverages TypeScript inference directly from backend router definitions without code generation or schemas, providing automatic autocomplete on the client. GraphQL Code Generator inspects GraphQL schemas to emit typed client hooks. Shared Zod schemas allow both Express controllers and React forms to infer common TypeScript types (z.infer<typeof Schema>) from a single source of truth.",
+    "tags": [
+      "typescript",
+      "graphql",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "How do you architect secure file uploads in a fullstack application: compare streaming through backend with Multer versus generating S3 Pre-Signed URLs.",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should compare: Uploading files directly through backend servers via Multer consumes server bandwidth, fills memory buffers or local disk, and bottlenecks Node.js event loops during large multi-megabyte transfers. In contrast, Pre-Signed URLs offload uploads: the client requests a signed PUT URL from the backend, and uploads the binary file directly to AWS S3/Cloudinary. This bypasses backend compute entirely, scales infinitely, and secures uploads with time-limited cryptographic signatures.",
+    "tags": [
+      "system-design",
+      "performance",
+      "web-security"
+    ]
+  },
+  {
+    "title": "Compare polling, long-polling, WebSockets, and Server-Sent Events (SSE) across fullstack applications: evaluate latency, overhead, and architectural complexity.",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A comprehensive answer compares: Regular polling creates excessive HTTP overhead and high latency; Long-polling holds connections open until data is available, reducing empty polls but sustaining reconnection overhead. Server-Sent Events (SSE) offers lightweight, unidirectional HTTP streaming perfect for AI token streaming or stock tickers with native browser reconnection. WebSockets provide low-latency full-duplex TCP communication ideal for collaborative editors and chat, but requires specialized load balancers and sticky sessions.",
+    "tags": [
+      "async-programming",
+      "performance",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How do you implement fullstack Role-Based Access Control (RBAC) that is strictly synchronized between React route guards and backend API controllers?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that the frontend uses higher-order components or route wrappers (<RequireRole allowedRoles={['admin']}>) to conditionally render views and prevent unauthorized navigation. However, frontend guards are purely visual UX affordances. The backend must enforce an authorize(...roles) middleware on every protected API endpoint that inspects the cryptographically verified JWT payload, returning HTTP 403 Forbidden if the user's role does not match, ensuring total security regardless of client state.",
+    "tags": [
+      "web-security",
+      "react",
+      "express"
+    ]
+  },
+  {
+    "title": "How do you architect search functionality in a fullstack app: compare SQL LIKE / MongoDB regex with database full-text search indexes and dedicated engines like Elasticsearch?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A strong response explains: SQL LIKE '%query%' and Mongo $regex perform full table scans (O(N)), completely bypassing B-tree indexes and stalling production databases at scale. Database full-text search (PostgreSQL tsvector / MongoDB $text) creates inverted indexes that support stemming and stop words for moderate datasets. Dedicated search engines like Elasticsearch or Meilisearch provide distributed inverted indexes, typo tolerance, fuzzy matching, and faceting, synchronizing via change-data-capture (CDC).",
+    "tags": [
+      "sql-databases",
+      "mongodb",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How do you architect a Feature Flagging system across a fullstack application to decouple code deployment from feature release?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain that feature flags wrap new code blocks in conditional checks evaluated at runtime based on user attributes (userId, role, beta-tester group, percentage rollout). The backend retrieves or caches flag rules (via Redis or tools like Unleash/LaunchDarkly) and sends targeting evaluations to the React frontend. This allows developers to continuously merge trunk-based code into production while keeping features dark, enabling instant kill-switches during incidents and progressive canary rollouts without re-deploying code.",
+    "tags": [
+      "system-design",
+      "devops",
+      "react"
+    ]
+  },
+  {
+    "title": "Analyze the security and architectural trade-offs of storing authentication tokens in localStorage versus HttpOnly SameSite=Strict cookies.",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates must explain that localStorage is directly accessible to any JavaScript running in the origin, meaning any Cross-Site Scripting (XSS) vulnerability allows attackers to extract tokens instantly. HttpOnly cookies cannot be read by client-side scripts, neutralizing token theft via XSS. However, cookies are automatically sent with browser requests, introducing Cross-Site Request Forgery (CSRF) vulnerabilities, which are mitigated by setting SameSite=Strict/Lax and implementing anti-CSRF tokens.",
+    "tags": [
+      "web-security",
+      "react",
+      "express"
+    ]
+  },
+  {
+    "title": "How do you implement internationalization (i18n) across a fullstack application, synchronizing backend localized emails/templates with frontend UI translations?",
+    "track": "Fullstack",
+    "difficulty": "Mid",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A clear answer explains establishing a standardized locale identifier (e.g. en-US, es-ES) derived from user profile settings or Accept-Language headers. The frontend utilizes libraries like react-i18next with lazy-loaded translation JSON namespaces to avoid bundle bloat. The backend uses libraries like i18n-node to translate email notifications and dynamic server error messages, sharing a centralized translation repository or TMS (Translation Management System) to synchronize keys.",
+    "tags": [
+      "react",
+      "node-js",
+      "rest-apis"
+    ]
+  },
+  {
+    "title": "How do you architect a disaster recovery and high-availability strategy for a fullstack application across Active-Passive and Active-Active multi-region deployments?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should define Recovery Time Objective (RTO) and Recovery Point Objective (RPO). In Active-Passive, primary traffic serves from Region A while Region B maintains asynchronous database read replicas and standby containers; DNS failover (Route 53) shifts traffic on outage with low cost but non-zero RTO/RPO. In Active-Active, both regions handle live traffic simultaneously using multi-master databases (e.g. CockroachDB, DynamoDB Global Tables) and geo-DNS, requiring conflict-resolution strategies and managing cross-region replication latency.",
+    "tags": [
+      "system-design",
+      "devops",
+      "sql-databases"
+    ]
+  },
+  {
+    "title": "Explain how to architect an Event-Driven Microservices system using Apache Kafka or RabbitMQ, handling event versioning, idempotent consumers, and consumer lag.",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A senior-level answer compares Kafka (distributed append-only commit log with partitioned consumer groups for high-throughput streaming) with RabbitMQ (smart broker with flexible exchange routing). Key architectural pillars include: using Schema Registries (Avro/Protobuf) for backward/forward event compatibility; implementing transactional outbox patterns to guarantee at-least-once publishing without distributed transactions; and ensuring consumers are idempotent via unique event ID deduplication stores.",
+    "tags": [
+      "microservices",
+      "system-design",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "How do you design a zero-downtime Blue/Green and Canary deployment pipeline with automated rollback based on error budget and latency telemetry?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain deploying the new release (Green) alongside active production (Blue). In Canary deployments, service meshes (Istio) or ingress controllers route a small percentage (e.g. 5%) of production traffic to Canary pods. Telemetry agents monitor Prometheus metrics (HTTP 5xx error rate, p99 latency). If metrics breach Service Level Objectives (SLOs), automated rollbacks trigger immediately, killing canary pods without customer disruption; if healthy, traffic scales incrementally to 100%.",
+    "tags": [
+      "devops",
+      "docker",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How does Distributed Tracing with OpenTelemetry and Jaeger work across a fullstack request, from frontend user interaction through microservice hops?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain the W3C Trace Context standard: when a user initiates an action, a unique Trace ID and Span ID are generated and injected into outgoing HTTP headers (traceparent: 00-traceId-spanId-01). As the request traverses backend API gateways, microservices, and message queues, each service propagates the Trace ID while generating new child Span IDs. Collectors stream these spans to Jaeger or Datadog, rendering an end-to-end flamegraph displaying exact latency bottlenecks across hops.",
+    "tags": [
+      "system-design",
+      "microservices",
+      "performance"
+    ]
+  },
+  {
+    "title": "How do you architect database sharding, read replicas, and eventual consistency in a globally distributed fullstack application?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A comprehensive answer explains horizontal partitioning (sharding) large tables across database nodes using hash-based or range-based shard keys to overcome single-instance storage and write throughput limits. Read replicas offload read-heavy traffic from the primary write node; however, replication lag introduces eventual consistency issues (read-your-own-writes inconsistency). Solutions include routing users to the primary database for a brief window immediately following writes or using sticky consistency tokens.",
+    "tags": [
+      "sql-databases",
+      "mongodb",
+      "system-design"
+    ]
+  },
+  {
+    "title": "Describe the architecture and responsibilities of an API Gateway (Kong, Envoy, AWS API Gateway) in an enterprise fullstack ecosystem.",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should define the API Gateway as the single reverse-proxy entry point for client requests. It offloads cross-cutting concerns from downstream microservices: SSL/TLS termination, centralized JWT authentication and RBAC validation, distributed rate limiting and DDoS mitigation, request routing and URL rewriting, response caching, request/response payload transformation, and distributed telemetry collection, allowing backend developers to focus purely on domain logic.",
+    "tags": [
+      "system-design",
+      "microservices",
+      "web-security"
+    ]
+  },
+  {
+    "title": "How do you protect fullstack applications against Distributed Denial of Service (DDoS) and bot attacks at the DNS, Edge CDN, and Application layers?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A great answer presents defense-in-depth across the OSI model: At Layer 3/4 (Network/Transport), using Anycast DNS and cloud edge scrubbing centers (Cloudflare, AWS Shield) to absorb multi-gigabit SYN floods. At Layer 7 (Application), implementing Web Application Firewalls (WAF) to inspect malicious payloads, enforcing managed CAPTCHAs, bot fingerprinting (JA3 TLS fingerprinting), strict IP/token rate limits, and caching static assets and API responses aggressively on edge CDNs.",
+    "tags": [
+      "web-security",
+      "system-design",
+      "devops"
+    ]
+  },
+  {
+    "title": "Explain the architectural pattern and trade-offs of CQRS (Command Query Responsibility Segregation) combined with Event Sourcing.",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should explain that CQRS separates write models (Commands that mutate business state) from read models (Queries optimized for fast UI presentation). In Event Sourcing, application state is not stored as mutable rows, but as an append-only sequence of immutable domain events. Read models are projected asynchronously by consuming the event stream. Benefits include perfect auditability, time-travel debugging, and highly scalable read models, but at the cost of eventual consistency, projection lag, and high architectural complexity.",
+    "tags": [
+      "system-design",
+      "microservices",
+      "async-programming"
+    ]
+  },
+  {
+    "title": "How do you implement Zero-Trust Architecture, secret rotation, and mutual TLS (mTLS) across internal microservice communications?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should explain the Zero-Trust principle: 'never trust, always verify', assuming perimeter networks are already compromised. Secrets are never hardcoded or stored in environment config files; they are retrieved at runtime from HashiCorp Vault or AWS Secrets Manager with automated dynamic rotation. All service-to-service communication requires mutual TLS (mTLS) orchestrated via service meshes (Istio/Linkerd), where both client and server cryptographically verify X.509 certificates to authenticate identity and encrypt traffic.",
+    "tags": [
+      "web-security",
+      "microservices",
+      "devops"
+    ]
+  },
+  {
+    "title": "How do you design an elastic auto-scaling infrastructure on Kubernetes using Horizontal Pod Autoscalers (HPA), Vertical Pod Autoscalers (VPA), and Cluster Autoscalers?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "A senior response explains the triad: HPA scales pod replica count horizontally based on observed CPU/memory utilization or custom Prometheus metrics (e.g. SQS queue depth or HTTP requests per second). VPA adjusts CPU/memory resource requests and limits for individual containers to prevent over-provisioning or OOM crashes. Cluster Autoscaler adjusts underlying cloud VM node count when unscheduled pods exceed cluster capacity or when nodes are underutilized, balancing resilience with infrastructure costs.",
+    "tags": [
+      "docker",
+      "devops",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How do you architect a real-time collaborative editing application (similar to Google Docs or Figma) using Conflict-Free Replicated Data Types (CRDTs) versus Operational Transformation (OT)?",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "The candidate should contrast the two distributed consensus models: Operational Transformation (OT) relies on a centralized server to sequence and transform concurrent user operations (insert/delete) against incoming revisions, requiring strict server coordination. In contrast, CRDTs (like Yjs or Automerge) are mathematically designed data structures that deterministically merge concurrent edits peer-to-peer without central coordination, making them ideal for decentralized, offline-first collaborative systems at the cost of higher memory metadata overhead.",
+    "tags": [
+      "system-design",
+      "async-programming",
+      "javascript"
+    ]
+  },
+  {
+    "title": "Describe the governance, API contract versioning, and backwards compatibility strategy for public developer APIs (such as Stripe's date-based version headers).",
+    "track": "Fullstack",
+    "difficulty": "Senior",
+    "type": "TECHNICAL",
+    "idealAnswerFormat": "Candidates should analyze API evolution strategies: URL path versioning (/v1 vs /v2) creates fragmented codebases and forces hard migrations. Stripe-style date-based versioning pins each account to an API version date; internal backend services always execute the newest canonical schema, and a middleware transformation pipeline applies a series of backward-compatible request/response mutations depending on the client's version header. Deprecations should follow explicit timelines, Sunset HTTP headers, and active developer notifications.",
+    "tags": [
+      "system-design",
+      "rest-apis",
+      "web-security"
+    ]
+  },
+  {
+    "title": "Tell me about a time you made a coding mistake or broke functionality in a project: how did you communicate it and what did you do to fix it?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A strong behavioral response follows the STAR method (Situation, Task, Action, Result). The candidate should demonstrate radical accountability: owning the mistake without blaming others or hiding the failure. They should articulate clear, immediate communication to teammates or stakeholders, a systematic approach to debugging and rolling back or patching the issue, and proactive implementation of regression tests or linting rules to prevent recurrence.",
+    "tags": [
+      "behavioral-leadership",
+      "problem-solving",
+      "communication"
+    ]
+  },
+  {
+    "title": "Describe a situation where you were assigned several urgent bug tickets at once: how did you triage them and decide which to tackle first?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should articulate a clear triage methodology: assessing severity (critical customer blocker vs minor UI defect) and scope of impact (all users vs edge-case subset). They should describe communicating their intended sequence to the team lead to ensure alignment, writing reproducible regression test cases for each fix, and delivering solutions systematically without panic.",
+    "tags": [
+      "problem-solving",
+      "communication"
+    ]
+  },
+  {
+    "title": "Tell me about a time you had to present a technical demo or sprint review of your work to teammates or business stakeholders: how did you prepare?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should demonstrate empathy for their audience by tailoring technical depth: focusing on user impact and working functionality for business stakeholders while being ready to dive into code architecture for engineering peers. They should describe anticipating edge-case questions, practicing a live demonstration with realistic seed data, and handling constructive suggestions with enthusiasm.",
+    "tags": [
+      "communication",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Tell me about a time you worked on a team project with a teammate whose communication style or technical opinion differed significantly from yours.",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A mature response demonstrates emotional intelligence and empathy. The candidate should describe adapting their communication approach (e.g. switching from long asynchronous messages to a short collaborative video call), seeking common ground anchored in shared project goals, and establishing explicit team agreements. They should highlight a successful project outcome and an improved working relationship.",
+    "tags": [
+      "conflict-resolution",
+      "communication",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "How do you balance doing independent troubleshooting with knowing when to ask for help from senior engineers when you are stuck?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should describe a disciplined 'timebox' rule (e.g. attempting focused independent debugging, searching documentation, and inspecting logs for 45-60 minutes). When reaching the time limit without progress, they escalate to a senior engineer, presenting a clear summary: what the expected behavior is, what is actually happening, what hypotheses they already tested, and specific code pointers, respecting the senior engineer's focus time.",
+    "tags": [
+      "problem-solving",
+      "communication"
+    ]
+  },
+  {
+    "title": "Describe a project where you demonstrated strong attention to detail and thoroughness in code quality, documentation, or testing.",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should highlight specific actions that elevated project reliability beyond the bare minimum: writing comprehensive unit and edge-case tests, adding clear OpenAPI/Swagger documentation, establishing descriptive README setup guides, or handling obscure error states. They should quantify the positive impact (e.g. zero regressions post-launch, smooth onboarding for another peer).",
+    "tags": [
+      "problem-solving",
+      "behavioral-leadership",
+      "testing"
+    ]
+  },
+  {
+    "title": "Tell me about a time you had to juggle multiple competing academic or professional deadlines simultaneously: how did you organize your priorities?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should describe using a deliberate prioritization framework (such as Eisenhower Matrix or MoSCoW) to evaluate tasks based on business urgency and impact. They should detail communicating proactively with mentors or managers when workload threatened timelines, negotiating realistic scope adjustments early rather than failing silently, and delivering all high-priority commitments successfully.",
+    "tags": [
+      "problem-solving",
+      "behavioral-leadership",
+      "communication"
+    ]
+  },
+  {
+    "title": "How do you approach documenting your code, commit messages, and project workflows so that future engineers can easily onboard?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A strong response emphasizes that code is read far more often than it is written. The candidate should advocate self-documenting code with meaningful naming, concise architectural comments explaining 'why' rather than 'what', conventional commit messages (feat:, fix:, chore:), and maintaining living documentation in Markdown wikis or READMEs with reproducible local development steps.",
+    "tags": [
+      "communication",
+      "devops"
+    ]
+  },
+  {
+    "title": "Describe an instance where project requirements or specifications provided to you were ambiguous, and explain how you sought clarity.",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should explain that making assumptions on vague requirements leads to rework. They should describe reviewing the ambiguity, formulating specific multiple-choice questions or user stories, scheduling a brief alignment session with the product owner or tech lead, and documenting the agreed-upon criteria in ticket acceptance criteria before writing code.",
+    "tags": [
+      "communication",
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "Tell me about a team project where a peer was missing deadlines or underperforming: how did you handle the situation constructively?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A great answer avoids complaining or throwing the peer under the bus. The candidate should describe approaching the teammate privately with empathy to understand if they were blocked or facing challenges. They should detail offering collaborative pair-programming support or re-distributing workload where appropriate, while keeping project timelines transparent and delivering the overall team commitment.",
+    "tags": [
+      "conflict-resolution",
+      "behavioral-leadership",
+      "communication"
+    ]
+  },
+  {
+    "title": "Tell me about an experience with pair programming: how did you navigate sharing the driver and navigator roles effectively?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A solid answer demonstrates active collaboration and humility. The candidate should describe alternating between typing code (driver) and focusing on the bigger picture, edge cases, and code style (navigator). They should highlight communicating thought processes aloud, being receptive to real-time suggestions, and achieving a higher-quality result faster than working in isolation.",
+    "tags": [
+      "communication",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Tell me about a time you received recognition or praise for going above and beyond expectations on an engineering task.",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should describe a situation where they identified an unaddressed issue (e.g. optimizing a sluggish build pipeline, fixing confusing error messages for end users, or creating a shared test utility) outside their immediate assignment scope. They should describe executing the improvement without neglecting primary duties and explain the measurable benefit realized by the team.",
+    "tags": [
+      "behavioral-leadership",
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "Describe an experience where a sudden change in project scope, tools, or priorities forced you to pivot your work quickly.",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A strong response illustrates adaptability and resilience. The candidate should describe accepting the business rationale for the pivot without frustration, salvaging reusable modular code or learnings from the prior work, and rapidly aligning with the new priorities to deliver results without missing project milestones.",
+    "tags": [
+      "problem-solving",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Describe a situation where you were assigned a repetitive, mundane, or tedious engineering task: how did you maintain motivation and quality?",
+    "track": "HR",
+    "difficulty": "Junior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should showcase an engineering mindset by seeking automation opportunities (e.g., writing a script to automate repetitive data entry, creating reusable templates, or adding linting rules). They should emphasize maintaining professional pride and thoroughness in execution, recognizing how even mundane tasks contribute to overall system stability and team success.",
+    "tags": [
+      "problem-solving",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Tell me about a time you had to advocate for code quality or technical debt remediation when product managers were pushing exclusively for new features.",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should frame technical debt in terms of business impact: velocity reduction, incident frequency, and customer churn. A great answer describes quantifying the risk, presenting data to product partners, and proposing a pragmatic compromise (e.g. allocating 20% of sprint capacity to tech debt or bundling refactoring into related feature deliverables) rather than creating an adversarial relationship.",
+    "tags": [
+      "behavioral-leadership",
+      "communication",
+      "conflict-resolution"
+    ]
+  },
+  {
+    "title": "Tell me about a time when an engineering estimate you gave was significantly off: how did you manage the delay and prevent similar misjudgments?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A strong STAR-method response demonstrates accountability and learning. The candidate should describe recognizing that unforeseen technical complexities or external dependency blockers were expanding the timeline, communicating the delay proactively to project managers with revised milestones, and breaking down the remaining work into smaller, verifiable chunks. They should describe incorporating spikes, buffer margins, and iterative estimation into future sprint planning.",
+    "tags": [
+      "problem-solving",
+      "communication",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Describe a situation where two enterprise clients or internal stakeholders requested contradictory features in the same product: how did you resolve the conflict?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should explain focusing on core user needs rather than superficial feature requests. They should describe conducting discovery to uncover the underlying business problems both parties were trying to solve, facilitating a collaborative discussion to find a generalized, configurable platform capability that satisfied both use cases, and maintaining clear communication so neither stakeholder felt ignored.",
+    "tags": [
+      "conflict-resolution",
+      "communication",
+      "system-design"
+    ]
+  },
+  {
+    "title": "Tell me about a high-severity production incident you responded to: how did you maintain composure and execute systematic debugging under pressure?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should recount an incident with calm focus: immediately stabilizing the situation (rollback, traffic rerouting, or feature flag toggle) before investigating root cause. They should detail effective incident communication (status page updates, clear roles in incident response), followed by a blameless post-mortem analyzing contributing factors and creating permanent preventive tickets.",
+    "tags": [
+      "problem-solving",
+      "communication",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Describe a situation where you had to ship a Minimum Viable Product (MVP) under an aggressive deadline and had to make conscious architectural trade-offs.",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A strong answer shows pragmatism. The candidate should detail intentionally choosing simpler, well-understood patterns (e.g. monolithic endpoint or relational table over microservices/event-driven complexity) to meet deadline commitments. They must demonstrate that trade-offs were explicitly documented as future technical debt tickets with clear triggers for when refactoring would become necessary.",
+    "tags": [
+      "system-design",
+      "behavioral-leadership",
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "Tell me about an experience mentoring an intern or junior engineer: how did you structure their growth without micromanaging them?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should describe setting up clear 30-60-90 day expectations, breaking down starter tasks of increasing complexity, and holding regular 1-on-1s. They should demonstrate coaching through Socratic questioning—guiding the mentee to uncover answers independently rather than dictating solutions—and celebrating their milestones to foster autonomy and confidence.",
+    "tags": [
+      "behavioral-leadership",
+      "communication"
+    ]
+  },
+  {
+    "title": "How do you ensure that team agile retrospectives result in concrete, measurable process improvements rather than recurring complaint sessions?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should describe framing retrospectives around blameless continuous improvement. Effective strategies include grouping feedback into themes, dot-voting on the highest-impact friction points, formulating SMART action items with a single assigned owner, and reviewing previous retrospective action items at the start of every retro to ensure accountability.",
+    "tags": [
+      "behavioral-leadership",
+      "conflict-resolution",
+      "communication"
+    ]
+  },
+  {
+    "title": "Describe an instance where a feature you built performed poorly in production or failed to meet user engagement expectations: what lessons did you take away?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A great answer demonstrates intellectual honesty and data-driven reflection. The candidate should explain analyzing telemetry, user session recordings, or customer interviews to diagnose the gap (e.g. unintuitive UX, incorrect problem validation). They should articulate iterating on the feature based on findings and establishing closer validation feedback loops with product users on future releases.",
+    "tags": [
+      "problem-solving",
+      "communication",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Tell me about a time you took ownership of an ambiguous, unassigned problem in the engineering organization and drove it to a successful resolution.",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should showcase bias for action. They should describe identifying an unowned problem (e.g. flaky CI test suites, obsolete deployment scripts, or recurring customer support tickets), gathering stakeholders to define requirements, scoping an incremental solution, and successfully executing it without dropping core feature commitments.",
+    "tags": [
+      "behavioral-leadership",
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "How do you communicate complex technical constraints, risks, or project delays to non-technical business stakeholders effectively?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should emphasize translating technical jargon into business concepts: user experience, financial cost, system reliability, and revenue risk. A strong response includes communicating delays proactively as soon as identified, offering concrete options (e.g. Option A: launch with core scope on time; Option B: delay 1 week for full scope), allowing stakeholders to make informed business decisions.",
+    "tags": [
+      "communication",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Describe a time when you had to say 'no' to a stakeholder or product manager's feature request to protect system stability or security.",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should explain that saying 'no' must be accompanied by business rationale and viable alternatives. They should detail explaining the risk (e.g. regulatory non-compliance, severe performance degradation) with concrete evidence, and collaborating on an alternative approach that satisfied the underlying customer need without compromising security or architectural integrity.",
+    "tags": [
+      "communication",
+      "conflict-resolution",
+      "web-security"
+    ]
+  },
+  {
+    "title": "Tell me about a time you discovered a critical security vulnerability or data risk in existing code prior to release: how did you handle it?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A strong answer demonstrates security consciousness and urgency. The candidate should describe discretely flagging the vulnerability to the security team and tech lead, halting the release pipeline, authoring a secure patch with automated test verification, and conducting a scan across the codebase to ensure the vulnerability pattern did not exist elsewhere.",
+    "tags": [
+      "web-security",
+      "problem-solving",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "How do you manage your workload and maintain sustainable pacing during high-velocity development sprints to prevent developer burnout?",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should discuss healthy boundary setting, realistic sprint estimation based on historical team velocity, and avoiding heroic 80-hour workweeks that generate low-quality code. They should mention communicating early when sprint scope exceeds realistic capacity, and practicing regular decompression habits to sustain long-term engineering excellence.",
+    "tags": [
+      "behavioral-leadership",
+      "communication"
+    ]
+  },
+  {
+    "title": "Describe a situation where two engineers on your team had opposing opinions on a design choice, and how you helped mediate a consensus.",
+    "track": "HR",
+    "difficulty": "Mid",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should describe acting as an objective facilitator. They should detail listing the pros, cons, and trade-offs of both options against clear evaluation criteria (maintainability, scalability, timeline), encouraging each engineer to articulate the merits of the opposing view, and proposing a lightweight prototype or spike to let empirical data decide the winner.",
+    "tags": [
+      "conflict-resolution",
+      "communication",
+      "behavioral-leadership"
+    ]
+  },
+  {
+    "title": "Tell me about a time you led a multi-quarter, multi-team technical migration without disrupting ongoing 24/7 business operations.",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A senior leader should outline comprehensive program management: building cross-functional alignment with an RFC, establishing phased milestones, and implementing zero-downtime migration patterns (expand/contract, dual-writing, feature flag gating). They should describe monitoring real-time telemetry, setting up automated rollback triggers, and successfully sunsetting legacy systems while keeping team morale high.",
+    "tags": [
+      "behavioral-leadership",
+      "system-design",
+      "communication"
+    ]
+  },
+  {
+    "title": "How do you cultivate an engineering culture of psychological safety, blameless postmortems, and continuous organizational learning?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should explain that blameless culture starts with leadership modeling vulnerability: openly discussing their own mistakes and framing failures as systemic process deficiencies rather than individual incompetence. They should describe institutionalizing blameless post-mortem templates, celebrating engineers who identify near-misses, and encouraging calculated experimentation.",
+    "tags": [
+      "behavioral-leadership",
+      "communication",
+      "conflict-resolution"
+    ]
+  },
+  {
+    "title": "Tell me about a time you led the deprecation and sunsetting of a critical legacy platform or internal tool: how did you manage stakeholder resistance and data migration?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should outline managing technical and human change. They should describe publishing clear migration timelines, deprecation notices, and automated migration tooling to lower switching costs for dependent teams. They should recount actively listening to resistant teams' concerns, resolving edge-case blockers, celebrating milestone milestones, and finally turning off legacy servers while ensuring zero data loss.",
+    "tags": [
+      "behavioral-leadership",
+      "system-design",
+      "communication"
+    ]
+  },
+  {
+    "title": "Tell me about a major architectural decision you made that you later realized was wrong: how did you navigate the pivot?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A master-level answer demonstrates humility and decisiveness. The candidate should avoid sunk-cost fallacy: when metrics or developer friction proved the chosen architecture was suboptimal, they acknowledged the mistake openly to stakeholders, formulated a clear migration roadmap, and executed the pivot cleanly while documenting post-mortem learnings for the organization.",
+    "tags": [
+      "behavioral-leadership",
+      "system-design",
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "How do you evaluate technical talent during interviews to balance technical competence, problem-solving agility, and cultural addition?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should describe designing structured, objective interview rubrics that minimize unconscious bias. They should assess how candidates think aloud, respond to hints, navigate trade-offs, and handle feedback on their designs. Cultural addition focuses on intellectual curiosity, collaborative empathy, and diverse perspectives rather than superficial homogeneity.",
+    "tags": [
+      "behavioral-leadership",
+      "communication"
+    ]
+  },
+  {
+    "title": "Describe a time you managed an underperforming senior engineer: how did you balance empathy with high expectations and accountability?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should explain having a direct, compassionate 1-on-1 to understand underlying blockers (personal issues, unclear expectations, lack of motivation). They should describe establishing a clear, timebound performance improvement plan with concrete, measurable engineering deliverables, providing frequent constructive feedback, and either celebrating their turnaround or facilitating a professional transition.",
+    "tags": [
+      "behavioral-leadership",
+      "communication",
+      "conflict-resolution"
+    ]
+  },
+  {
+    "title": "How do you design career development roadmaps and mentorship structures to elevate mid-level engineers into staff and lead roles?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A strong response outlines shifting focus from pure coding output to organizational leverage: technical design leadership, cross-team communication, mentorship, and business acumen. The candidate should describe delegating high-visibility architectural initiatives, sponsoring mentees in executive meetings, and coaching them through complex stakeholder negotiations.",
+    "tags": [
+      "behavioral-leadership",
+      "communication"
+    ]
+  },
+  {
+    "title": "How do you resolve architectural gridlock when multiple autonomous engineering pods disagree on shared platform standards?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should describe establishing an Architecture Review Board (ARB) or RFC process with defined evaluation criteria. They should separate emotional attachments from technical requirements, conduct time-boxed proof-of-concept bake-offs, and if consensus remains elusive, exercise decisive technical leadership to make the call while ensuring all parties feel heard and committed.",
+    "tags": [
+      "conflict-resolution",
+      "behavioral-leadership",
+      "system-design"
+    ]
+  },
+  {
+    "title": "Tell me about a high-stakes cross-departmental crisis (involving engineering, legal, security, and PR) you helped navigate to resolution.",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should describe establishing clear command hierarchy and disciplined communication channels during the crisis. They should articulate translating technical forensics into clear statements for legal counsel and PR, prioritizing customer data protection and compliance, and leading remediation efforts to restore public and partner trust.",
+    "tags": [
+      "behavioral-leadership",
+      "communication",
+      "web-security"
+    ]
+  },
+  {
+    "title": "Describe how you introduced Service Level Objectives (SLOs) and Error Budgets to an engineering organization, and how you enforced accountability when error budgets were burned.",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A seasoned senior leader should describe aligning engineering and product around reliability targets (e.g., 99.9% availability measured by SLIs). They should explain establishing the policy: when a service burns its monthly error budget, all feature deployments halt and team velocity pivots 100% to stability, testing, and infrastructure fixes. They should detail coaching product managers to embrace error budgets as an agreed-upon contract for balancing feature velocity with customer trust.",
+    "tags": [
+      "behavioral-leadership",
+      "devops",
+      "system-design"
+    ]
+  },
+  {
+    "title": "How do you balance technological innovation (adopting modern frameworks and tools) with operational maturity ('Choose Boring Technology')?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should explain the concept of innovation tokens: organizations have a limited budget for novel, unproven technologies. Mature technologies (PostgreSQL, standard Linux, proven runtimes) provide predictable failure modes, deep ecosystem tooling, and wide talent pools. Novel technologies should only be adopted when they provide a massive, 10x competitive business advantage.",
+    "tags": [
+      "system-design",
+      "behavioral-leadership",
+      "problem-solving"
+    ]
+  },
+  {
+    "title": "Describe your strategy for prioritizing and managing technical debt across a legacy codebase while maintaining sustained feature delivery velocity.",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "Candidates should outline categorizing technical debt into prudently incurred vs reckless debt, and assessing interest rate (how much daily velocity it drains). They should advocate for continuous maintenance (the Boy Scout rule: leave code cleaner than you found it), alongside dedicated quarterly tech sprints, presenting tech debt payoff in terms of reduced outage costs and faster feature time-to-market.",
+    "tags": [
+      "behavioral-leadership",
+      "system-design",
+      "communication"
+    ]
+  },
+  {
+    "title": "How do you foster alignment and strong engineering team cohesion across globally distributed, asynchronous remote teams in multiple time zones?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "The candidate should emphasize an asynchronous-first culture: comprehensive RFCs, detailed meeting summaries, recorded walkthroughs, and clear ticket definitions that empower engineers to make progress without real-time synchronous meetings. They should also schedule deliberate, periodic social syncs and team offsites to build interpersonal empathy and trust.",
+    "tags": [
+      "communication",
+      "behavioral-leadership",
+      "conflict-resolution"
+    ]
+  },
+  {
+    "title": "How do you define and measure engineering excellence and business impact beyond raw metrics like lines of code or ticket story points?",
+    "track": "HR",
+    "difficulty": "Senior",
+    "type": "HR_BEHAVIORAL",
+    "idealAnswerFormat": "A senior leader should reject vanity metrics like lines of code or story points, which incentivize perverse behavior. Instead, they should advocate DORA metrics (Deployment Frequency, Lead Time for Changes, Change Failure Rate, Time to Restore Service) to measure delivery velocity and stability, combined with user outcomes, customer satisfaction, system uptime, and team retention.",
+    "tags": [
+      "behavioral-leadership",
+      "devops",
+      "system-design"
+    ]
+  }
+]

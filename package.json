@@ -1,0 +1,10 @@
+{
+  "name": "mockmate",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "seed": "node backend/scripts/seed.js",
+    "backend": "npm --prefix backend run dev",
+    "frontend": "npm --prefix frontend run dev"
+  }
+}
